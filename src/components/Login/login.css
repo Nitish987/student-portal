@@ -4,146 +4,123 @@
 }
 
 body {
+  background: linear-gradient(45deg, #131086, #b621f3);
   padding: 0px;
   margin: 0px;
   font-family: "Inter", sans-serif;
-  background: linear-gradient(45deg, #131086, #b621f3);
-  padding: 40px;
-}
-
-.container {
-  min-height: calc(100vh - 80px);
-  display: grid;
-  grid-template-columns: 50% 50%;
-  border-radius: 10px;
   overflow: hidden;
+  height: 100vh;
 }
 
-.login-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 150px;
-  background-color: white;
-}
-
-.login-right {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-}
-.login-right img {
-  width: 70%;
-  padding: 60px;
-}
-
-.login-header {
-  margin-bottom: 50px;
-}
-.login-header h1 {
-  font-size: 40px;
-  margin-bottom: 10px;
-}
-.login-header p {
-  opacity: 0.7;
-}
-
-.login-form {
-  width: 450px;
-}
-.login-form-content {
-  display: flex;
-  flex-direction: column;
-  gap: 35px;
-}
-.login-form-footer {
-  display: flex;
-  gap: 30px;
-  margin-top: 70px;
-}
-.login-form-footer a {
-  flex: 6;
-  gap: 15px;
-  border: 1px solid black;
-  border-radius: 100px;
-  padding: 0.6rem;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  color: black;
-  text-decoration: none;
-}
-.login-form-footer a:hover {
-  background-color: #eee;
-}
-
-.form-item label:not(.checkboxLabel) {
-  display: inline-block;
-  background-color: white;
-  margin-bottom: 10px;
+.cont {
   position: absolute;
-  padding: 0 10px;
-  transform: translate(30px, -10px);
-  font-size: 14px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background: white;
+  border-radius: 10px;
+}
+.cont h1 {
+  text-align: center;
+  padding: 0 0 20px 0;
+  border-bottom: 1px solid silver;
+}
+.cont form {
+  padding: 0 40px;
 }
 
-input[type=text],
-input[type=password] {
-  border: 1px solid black;
-  height: 55px;
-  padding: 0 2rem;
+form .form-item {
+  position: relative;
+  border-bottom: 2px solid #adadad;
+  margin: 30px 0;
+}
+.form-item input {
   width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  background: none;
   outline: none;
-  transition: background 0.5s;
-  font-size: 18px;
-  border-radius: 100px;
 }
-
-.checkbox {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+.form-item label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: #adadad;
+  transform: translateY(-50%);
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.5s;
 }
-
-input[type=checkbox] {
-  width: 20px;
-  height: 20px;
-  accent-color: #131086;
+.form-item span::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #131086;
+  transition: 0.5s;
 }
-
-button {
+.form-item input:focus ~ label,
+.form-item input:valid ~ label {
+  top: -5px;
+  color: #131086;
+}
+.form-item input:focus ~ span::before,
+.form-item input:valid ~ span::before {
+  width: 100%;
+  color: #131086;
+}
+input[type="submit"] {
   border: none;
   background: linear-gradient(45deg, #131086, #b621f3);
   color: white;
   padding: 1rem;
-  border-radius: 100px;
+  margin: 0 auto  20px 85px;
+  border-radius: 25px;
   text-align: center;
-  text-transform: uppercase;
   font-size: 18px;
-  height: 55px;
+  height: 50px;
   cursor: pointer;
+  width: 50%;
+  font-weight: 700;
+  outline: none;
 }
-
-@media (max-width: 1350px) {
-  .login-left {
-    padding: 50px !important;
-  }
-  .login-form {
-    width: 100%;
-  }
-  .login-form-footer {
-    flex-direction: column;
-    gap: 15px;
-  }
+input[type="submit"]:hover {
+  border-color: #b621f3;
+  transition: 0.5s;
 }
 @media (max-width: 768px) {
-  body {
-    padding: 20px;
-  }
-  .container {
-    grid-template-columns: auto;
-  }
-  .login-right {
-    display: none;
+  .cont {
+    width: 90%;
   }
 }
+
+@media (max-width: 480px) {
+  .cont form {
+    padding: 0 20px;
+  }
+  
+  .form-item {
+    margin: 20px 0;
+  }
+  
+  input[type="submit"] {
+    margin: 0 auto 20px;
+  }
+}
+
+@media (max-width: 360px) {
+  .cont h1 {
+    font-size: 28px;
+  }
+  
+  .form-item input {
+    height: 35px;
+    font-size: 14px;
+  }
+}
+
