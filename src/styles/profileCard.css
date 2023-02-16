@@ -11,6 +11,10 @@
     width: 30vw;
 }
 
+.profile-ul button{
+    white-space: nowrap;
+}
+
 .info {
     width: 30vw;
 }
