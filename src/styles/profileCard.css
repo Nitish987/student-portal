@@ -23,12 +23,14 @@
 .upload-file {
     width: 30vw;
 }
+
 @media (max-width: 580px) {
-    .top-profile{
+    .top-profile {
         position: relative;
         right: 3rem;
     }
-    .profile-ul{
-        margin-left: 1rem!important;
+
+    .profile-ul {
+        margin-left: 1rem !important;
     }
 }

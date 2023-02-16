@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { useNavigate } from 'react-router-dom';
+import ProfileCard from './ProfileCard';
 
 export default function Profile() {
   const navigate = useNavigate();
@@ -15,6 +16,8 @@ export default function Profile() {
   }, [navigate]);
   
   return (
-    <div>Profile</div>
+    <>
+      <ProfileCard/>
+    </>
   )
 }

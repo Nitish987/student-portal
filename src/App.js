@@ -26,8 +26,8 @@ function App() {
   return (
     <>
       <Alert />
-      {isLoggedIn && <Navbar />}
       <BrowserRouter>
+        {isLoggedIn && <Navbar />}
         <Routes>
           <Route index element={<Dashboard />} />
           <Route path="/" element={<Dashboard />} />
