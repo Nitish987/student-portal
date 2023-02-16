@@ -5,7 +5,6 @@ import Profile from "./components/Profile";
 import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login/login";
-import Signup from "./components/Signup/signup";
 
 
 function App() {
@@ -13,8 +12,7 @@ function App() {
     <>
       <Alert />
       <Navbar/>
-      <Signup/>
-    {/* <Login/> */}
+    <Login/>
       <BrowserRouter>
         <Routes>
           <Route index element={<Dashboard/>}/>
