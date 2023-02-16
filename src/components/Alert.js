@@ -12,10 +12,12 @@ export default function Alert() {
     <>
       {
         alert.visible &&
-        <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
-          <strong>Alert! </strong>
-          {alert.message}
-          <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={close}></button>
+        <div className="fixed-top">
+          <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+            <strong>Alert! </strong>
+            {alert.message}
+            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close" onClick={close}></button>
+          </div>
         </div>
       }
     </>

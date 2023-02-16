@@ -12,7 +12,8 @@ export const alertSlice = createSlice({
   reducers: {
     showAlert: (state, action) => {
       state.visible = true;
-      state.message = action.payload.message
+      state.message = action.payload.message;
+      state.type = action.payload.type;
     },
     dismissAlert: (state) => {
       state.visible = false;
