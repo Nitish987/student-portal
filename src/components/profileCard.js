@@ -1,4 +1,4 @@
-import '../styles/ProfileCard.css';
+import '../styles/profileCard.css';
 import React from "react";
 
 export default function ProfileCard() {
