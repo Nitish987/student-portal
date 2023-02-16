@@ -1,8 +1,9 @@
+import '../styles/ProfileCard.css';
 import React from "react";
 
 export default function ProfileCard() {
     return (
-        <div className="cont container-fluid d-flex justify-content-center">
+        <div className="container-fluid d-flex justify-content-center mt-5">
             <div className="top-profile d-flex p-2">
                 <div className="profile-cont"></div>
                 <div className="info d-flex flex-column">
