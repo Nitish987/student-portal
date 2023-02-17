@@ -1,0 +1,30 @@
+.backgorund-img{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.dashboard-content{
+    background-image: url('https://t4.ftcdn.net/jpg/05/61/53/69/360_F_561536913_navu4AydRORIDwJSeHieNUYx1Efqi85t.webp');
+    height: 25vh;
+    background-color: aqua;
+}
+.upcoming{
+    height: fit-content;
+}
+.pic-cont{
+    height: 100px;
+    width: 100px;
+    background-image: url('https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp');
+}
+@media (max-width: 776px) {
+    .dash-cont{
+        width: 90vw!important;
+    }
+    .upcoming{
+        font-size: 1rem!important;
+        padding: 4px!important;
+    }
+    .assignment-cont{
+        padding-left: 0%!important;
+    }
+}
