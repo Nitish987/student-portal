@@ -1,40 +1,103 @@
-.profile-cont {
-    width: 150px;
-    height: 150px;
-    background-image: url('https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-profiles/avatar-1.webp');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.conta {
+    padding: 0 5%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.profile-section {
-    width: 30vw;
+.bio {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    background-color: white;
+    height: auto;
+    padding: 3rem 0 2rem 5rem;
+    align-items: center;
+    border-bottom: 1px solid grey;
 }
 
-.profile-ul button{
-    white-space: nowrap;
+.profile-photo {
+    background-color: white;
+    width: 10em;
+    height: 10em;
+    border-radius: 50%; 
+    overflow: hidden;
 }
 
-.info {
-    width: 30vw;
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
-.main-content img {
-    width: 30%;
-    height: 70%;
+.profile-info {
+    display: flex;
+    flex-direction: column;
 }
 
-.upload-file {
-    width: 30vw;
+.profile-info .username {
+    font-size: 2rem;
+    color: #545454;
+    font-weight: 900;
+    text-align: left;
+    margin: 0;
+    line-height: 1;
+}
+.profile-info .username span{
+    font-weight: 500;
 }
 
-@media (max-width: 580px) {
-    .top-profile {
-        position: relative;
-        right: 3rem;
+.st {
+    font-size: 1.3rem;
+    color: #545454;
+    font-weight: 100;
+    margin: 10px 0 0;
+}
+
+.contali {
+    display: flex;
+    gap: 20px;
+    margin-top: 4px;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.contali li {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+.contali li span{
+    font-weight: 500;
+}
+
+.st2 {
+    font-size: 1.1rem;
+    color: #545454;
+    font-weight: 100;
+    margin: 10px 0 0;
+}
+
+.st3 {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    .bio {
+        grid-template-columns: 1fr;
+        height: auto;
+        padding: 3rem 1rem;
+        text-align: center;
     }
 
-    .profile-ul {
-        margin-left: 1rem !important;
+    .profile-photo {
+        margin-bottom: 1rem;
+    }
+
+    .profile-info {
+        align-items: center;
+    }
+
+    .contali {
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }

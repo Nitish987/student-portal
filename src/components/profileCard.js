@@ -3,32 +3,24 @@ import React from "react";
 
 export default function ProfileCard() {
     return (
-        <div className="container-fluid d-flex justify-content-center mt-5">
-            <div className="top-profile d-flex p-2">
-                <div className="profile-cont"></div>
-                <div className="info d-flex flex-column">
-                    <div className="profile-ul ms-5 h2 mb-0">Himanshu</div>
-                    <div className="profile-ul ms-5 text-muted">student</div>
-                    <div className="profile-ul ms-5 d-flex justify-content-start rounded-3">
-                        <div>
-                            <p className="small mb-1">certificate</p>
-                            <p className="mb-0">41</p>
-                        </div>
-                        <div className="px-3">
-                            <p className="small mb-1">Followers</p>
-                            <p className="mb-0">--</p>
-                        </div>
-                        <div>
-                            <p className="small mb-1">Rating</p>
-                            <p className="mb-0">--</p>
-                        </div>
-                    </div>
-                    <div className="profile-ul d-flex pt-1 ms-5">
-                        <button type="button" className="btn btn-primary btn-sm">change profile</button>
-                        <button type="button" className="btn btn-primary btn-sm ms-1">change branch</button>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <React.Fragment>
+        <div className="conta">
+        <section className="bio">
+          <div className="profile-photo">
+            <img src="https://c.ndtvimg.com/2021-03/mjvj8moo_kiara-instagram_625x300_17_March_21.jpg" alt="profile-photo.png" />
+          </div>
+          <div className="profile-info">
+            <p className="username">meri darling <br /><span className="st">(ekno)</span></p>
+            <br></br>
+            <ul className="contali">
+              <li>Course <br /><span className="st2">(B.Tech)</span></li>
+              <li>Branch <br /><span className="st2">(IOT)</span></li>
+              <li>Sec <br /><span className="st2">(B)</span></li>
+              <li>Roll_No <br /><span className="st2 st3"> 2000331550106 </span></li>
+            </ul>
+          </div>
+        </section>
+      </div>
+      </React.Fragment>
     )
 }
