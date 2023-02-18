@@ -1,4 +1,4 @@
-import '../styles/profileCard.css';
+import '../styles/ProfileCard.css';
 import React, { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from '../firebase/firebase';
@@ -32,7 +32,7 @@ export default function ProfileCard({ userProfile, setUserProfile }) {
     if(userProfile === null) {
       fetchProfile();
     }
-  }, [userProfile]);
+  }, [userProfile, setUserProfile]);
 
   return (
     <React.Fragment>
