@@ -1,20 +1,27 @@
 import '../styles/Profile.css';
 import React, { useEffect, useState } from 'react'
 import { EmailAuthProvider, onAuthStateChanged, reauthenticateWithCredential, updatePassword, signOut } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth, db, storage } from "../firebase/firebase";
+import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { showAlert } from "../features/alert/AlertSlice";
 import ProfileCard from './ProfileCard';
+import { doc, updateDoc } from 'firebase/firestore';
 
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userProfile, setUserProfile] = useState(null);
+  const [profilePic, setProfilePic] = useState(null);
   const [userPassword, setUserPassword] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
 
   const onUserPasswordChange = (e) => {
     setUserPassword({ ...userPassword, [e.target.name]: e.target.value });
+  }
+
+  const onProfilePicChoosen = async (e) => {
+    setProfilePic(e.target.files[0]);
   }
 
   const changePassword = (e) => {
@@ -57,6 +64,30 @@ export default function Profile() {
     });
   }
 
+  const changeProfilePic = (e) => {
+    e.preventDefault();
+
+    if (profilePic === null) {
+      dispatch(showAlert({
+        message: "Please Select the Profile Photo.",
+        type: "warning"
+      }));
+      return;
+    }
+
+    const storageRef = ref(storage, `profile/${auth.currentUser.uid}.png`);
+    uploadBytes(storageRef, profilePic).then((snapshot) => {
+      getDownloadURL(storageRef).then((url) => {
+        const profileDoc = doc(db, "user", auth.currentUser.uid);
+        updateDoc(profileDoc, {
+          photo: url
+        }).then(() => {
+          setUserProfile({ ...userProfile, photo: url});
+        });
+      });
+    });
+  }
+
   const logout = (e) => {
     signOut(auth).then(() => {
       navigate('/');
@@ -85,8 +116,8 @@ export default function Profile() {
             <div className='container-sm mt-5'>
               <h5>Profile Settings</h5>
               <div className="input-group">
-                <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="profile-pic-choose" aria-label="Upload" />
-                <button className="btn btn-outline-primary" type="button" id="profile-pic-choose">Change Pic</button>
+                <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="profile-pic-choose" aria-label="Upload" onChange={onProfilePicChoosen} accept="image/*" />
+                <button className="btn btn-outline-primary" type="button" id="profile-pic-choose" onClick={changeProfilePic}>Change Pic</button>
               </div>
             </div>
           </div>
