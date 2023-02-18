@@ -5,7 +5,6 @@ import { auth } from "../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showAlert } from "../features/alert/AlertSlice";
-import { setLoggedIn } from "../features/auth/authSlice";
 
 export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' });
@@ -28,7 +27,6 @@ export default function Login() {
     }
 
     signInWithEmailAndPassword (auth, user.email, user.password).then((userCredential) => {
-      dispatch(setLoggedIn({ uid: userCredential.uid }));
       navigate('/');
     }).catch((error) => {
       dispatch(showAlert({

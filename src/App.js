@@ -5,20 +5,21 @@ import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Login from "./components/login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
 import { auth } from "./firebase/firebase";
-import { setLoggedIn } from "./features/auth/authSlice";
 import { onAuthStateChanged } from "firebase/auth";
 
 function App() {
   const dispatch = useDispatch();
-  const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        dispatch(setLoggedIn({ uid: user.uid }));
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
       }
     });
   }, [dispatch]);

@@ -86,6 +86,7 @@
         height: auto;
         padding: 3rem 1rem;
         text-align: center;
+        place-items: center;
     }
 
     .profile-photo {

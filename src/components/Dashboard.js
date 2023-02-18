@@ -1,3 +1,4 @@
+import '../styles/dashboard.css';
 import React, { useEffect } from 'react'
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/firebase";
@@ -15,7 +16,7 @@ export default function Dashboard() {
   }, [navigate]);
 
   return (
-    <div className="container-fluid d-flex justify-content-center">
+    <div className="container-fluid d-flex justify-content-center mt-4">
         <div className="dash-cont d-flex w-75 flex-column">
             <div className="dashboard-content backgorund-img d-flex rounded-5 w-100 ">
                 <div className="department d-flex align-items-end ms-4 mb-3 fs-1">
