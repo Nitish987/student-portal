@@ -4,15 +4,16 @@ import { EmailAuthProvider, onAuthStateChanged, reauthenticateWithCredential, up
 import { auth, db, storage } from "../firebase/firebase";
 import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showAlert } from "../features/alert/AlertSlice";
 import ProfileCard from './ProfileCard';
 import { doc, updateDoc } from 'firebase/firestore';
+import { setUserProfileData } from '../features/user/userSlice';
 
 export default function Profile() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [userProfile, setUserProfile] = useState(null);
+  const userProfile = useSelector(state => state.user.profile);
   const [profilePic, setProfilePic] = useState(null);
   const [userPassword, setUserPassword] = useState({ oldPassword: '', newPassword: '', confirmPassword: '' });
 
@@ -82,7 +83,7 @@ export default function Profile() {
         updateDoc(profileDoc, {
           photo: url
         }).then(() => {
-          setUserProfile({ ...userProfile, photo: url});
+          dispatch(setUserProfileData({ profile: { ...userProfile, photo: url} }));
         });
       });
     });
@@ -109,7 +110,7 @@ export default function Profile() {
 
   return (
     <>
-      <ProfileCard userProfile={userProfile} setUserProfile={setUserProfile} />
+      <ProfileCard/>
       <div className="container">
         <div className="row profile-container-row">
           <div className="col">

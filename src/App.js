@@ -5,24 +5,36 @@ import Dashboard from "./components/Dashboard";
 import Navbar from "./components/Navbar";
 import Login from "./components/login";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { auth } from "./firebase/firebase";
+import { auth, db } from "./firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
+import { setUserProfileData } from "./features/user/userSlice";
 
 function App() {
   const dispatch = useDispatch();
+  const userProfile = useSelector(state => state.user.profile);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
         setIsLoggedIn(true);
+
+        const profileRef = doc(db, "user", auth.currentUser.uid);
+        const profileSnap = await getDoc(profileRef);
+        if (profileSnap.exists()) {
+          dispatch(setUserProfileData({ profile: profileSnap.data() }));
+        }
+        
       } else {
         setIsLoggedIn(false);
+        
+        dispatch(setUserProfileData({ profile: null }));
       }
     });
-  }, [dispatch]);
+  }, [userProfile, dispatch])
 
   return (
     <>

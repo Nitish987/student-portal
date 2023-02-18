@@ -1,10 +1,12 @@
 import "../styles/Login.css";
 import React, { useEffect, useState } from "react";
 import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showAlert } from "../features/alert/AlertSlice";
+import { setUserProfileData } from "../features/user/userSlice"
 
 export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' });
@@ -26,7 +28,12 @@ export default function Login() {
       return;
     }
 
-    signInWithEmailAndPassword (auth, user.email, user.password).then((userCredential) => {
+    signInWithEmailAndPassword(auth, user.email, user.password).then(async (userCredential) => {
+      const profileRef = doc(db, "user", auth.currentUser.uid);
+      const profileSnap = await getDoc(profileRef);
+      if (profileSnap.exists()) {
+        dispatch(setUserProfileData({ profile: profileSnap.data() }));
+      }
       navigate('/');
     }).catch((error) => {
       dispatch(showAlert({

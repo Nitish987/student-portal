@@ -1,12 +1,14 @@
 import '../styles/ProfileCard.css';
-import React, { useEffect } from "react";
-import { doc, getDoc } from "firebase/firestore";
-import { auth, db } from '../firebase/firebase';
+import React from "react";
+import { auth } from '../firebase/firebase';
 import profile_svg from '../res/svg/profile.svg';
 import female_svg from '../res/svg/female.svg';
 import male_svg from '../res/svg/male.svg';
+import { useSelector } from "react-redux";
 
-export default function ProfileCard({ userProfile, setUserProfile }) {
+export default function ProfileCard() {
+  const userProfile = useSelector(state => state.user.profile);
+
   const getProfilePic = () => {
     if(userProfile === null) {
       return profile_svg;
@@ -21,19 +23,6 @@ export default function ProfileCard({ userProfile, setUserProfile }) {
     }
   }
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const profileRef = doc(db, "user", auth.currentUser.uid);
-      const profileSnap = await getDoc(profileRef);
-      if (profileSnap.exists()) {
-        setUserProfile(profileSnap.data());
-      }
-    }
-    if(userProfile === null) {
-      fetchProfile();
-    }
-  }, [userProfile, setUserProfile]);
-
   return (
     <React.Fragment>
       <div className="conta">
@@ -42,7 +31,7 @@ export default function ProfileCard({ userProfile, setUserProfile }) {
             <img src={getProfilePic()} alt="profile" />
           </div>
           <div className="profile-info">
-            <p className="username">{userProfile !== null ? userProfile.name: 'Your Name'} <br /><span className="st">{auth.currentUser.email}</span></p>
+            <p className="username">{userProfile !== null ? userProfile.name: 'Your Name'} <br /><span className="st">{auth.currentUser && auth.currentUser.email}</span></p>
             <br></br>
             <ul className="contali">
               <li><b>Course</b> <br /><span className="st2">{userProfile !== null ? userProfile.course: 'N/A'}</span></li>
