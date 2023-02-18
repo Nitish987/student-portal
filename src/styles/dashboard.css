@@ -18,7 +18,7 @@
 .pic-cont img{
     object-fit: cover;
 }
-@media (max-width: 776px) {
+@media (max-width: 991px) {
     .dash-cont{
         width: 90vw!important;
     }
