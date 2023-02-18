@@ -1,4 +1,4 @@
-import '../styles/ProfileCard.css';
+import '../styles/profileCard.css';
 import React, { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from '../firebase/firebase';
