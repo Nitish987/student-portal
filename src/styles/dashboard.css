@@ -12,19 +12,21 @@
     height: fit-content;
 }
 .pic-cont{
-    height: 100px;
-    width: 100px;
-    background-image: url('https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp');
+    height: 3rem;
+    width: 3rem;
 }
-@media (max-width: 776px) {
+.pic-cont img{
+    object-fit: cover;
+}
+@media (max-width: 991px) {
     .dash-cont{
         width: 90vw!important;
     }
     .upcoming{
-        font-size: 1rem!important;
-        padding: 4px!important;
+        display: none;
     }
     .assignment-cont{
         padding-left: 0%!important;
+        width: 100%!important;
     }
 }

@@ -6,7 +6,7 @@ import { uploadBytes, ref, getDownloadURL } from 'firebase/storage';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { showAlert } from "../features/alert/AlertSlice";
-import ProfileCard from './ProfileCard';
+import ProfileCard from './profileCard';
 import { doc, updateDoc } from 'firebase/firestore';
 
 export default function Profile() {
