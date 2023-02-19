@@ -139,6 +139,26 @@ export default function AssignmentView() {
                 <span>Assigned on - {timestamp(assignment.onDate)}</span>
                 <br />
                 <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
+                <br />
+                <br />
+
+                {
+                  assignment.attachment
+                  &&
+                  <>
+                    <span><b>Attachment</b></span>
+                    <div className="mt-3">
+                      {
+                        assignment.attachmentType === "img" &&
+                        <img src={assignment.attachment} className="img-thumbnail" alt="attachment" />
+                      }
+                      {
+                        assignment.attachmentType === "pdf" &&
+                        <iframe src={assignment.attachment} className="w-100 vh-100"></iframe>
+                      }
+                    </div>
+                  </>
+                }
 
                 <div className="input-group mt-5">
                   <input type="file" className="form-control" aria-describedby="assignment-choose" aria-label="Upload" onChange={onFileSelected} />
@@ -151,7 +171,7 @@ export default function AssignmentView() {
                   isCompleteDocExists && <span className='text-success'>You have already submitted this Assignment.</span>
                 }
                 {
-                uploadingLoading ? <span className='text-success'>Uploading...</span> : <button className="btn btn-success mt-3" type="button" onClick={uploadAssignment}>Mark as Done</button>
+                  uploadingLoading ? <span className='text-success'>Uploading...</span> : <button className="btn btn-success mt-3 mb-5" type="button" onClick={uploadAssignment}>Mark as Done</button>
                 }
               </div>
             </>
