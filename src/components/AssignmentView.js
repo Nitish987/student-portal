@@ -12,7 +12,10 @@ export default function AssignmentView() {
   const dispatch = useDispatch();
   const userProfile = useSelector(state => state.user.profile);
   const [assignment, setAssignment] = useState(null);
+  const [isAssignmentExists, setIsAssignmentExists] = useState(true);
   const [file, setFile] = useState(null);
+  const [isCompleteDocExists, setIsCompleteDocExists] = useState(false);
+  const [uploadingLoading, setUploadingLoading] = useState(false);
 
   const timestamp = (time) => {
     const fireBaseTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000,);
@@ -36,14 +39,15 @@ export default function AssignmentView() {
       return;
     }
 
+    setUploadingLoading(true);
+
     const storageRef = ref(storage, `assignment/${params.id}/${auth.currentUser.uid}.pdf`);
     uploadBytes(storageRef, file).then((snapshot) => {
       getDownloadURL(storageRef).then(async (url) => {
 
         const compeletedDoc = doc(db, "department", userProfile.branch, "assignments", params.id, "completed", auth.currentUser.uid);
-        const completedSnap = await getDoc(compeletedDoc);
 
-        if (completedSnap.exists()) {
+        if (isCompleteDocExists) {
 
           updateDoc(compeletedDoc, {
             name: userProfile.name,
@@ -56,6 +60,8 @@ export default function AssignmentView() {
               type: "success"
             }));
             return;
+          }).finally(() => {
+            setUploadingLoading(false);
           });
 
         } else {
@@ -71,6 +77,8 @@ export default function AssignmentView() {
               type: "success"
             }));
             return;
+          }).finally(() => {
+            setUploadingLoading(false);
           });
 
         }
@@ -83,15 +91,26 @@ export default function AssignmentView() {
     const fetchAssignment = async () => {
       const assignmentRef = doc(db, "department", userProfile.branch, "assignments", params.id);
       const assignmentSnap = await getDoc(assignmentRef);
-      if (assignmentSnap.exists()) {
+      if (assignmentSnap.exists() && assignmentSnap.data().section === userProfile.section && assignmentSnap.data().year === userProfile.year && assignmentSnap.data().branch === userProfile.branch) {
         setAssignment(assignmentSnap.data());
+      } else {
+        setIsAssignmentExists(false);
+      }
+    }
+
+    const checkCompetedDocExistance = async () => {
+      const compeletedDoc = doc(db, "department", userProfile.branch, "assignments", params.id, "completed", auth.currentUser.uid);
+      const completedSnap = await getDoc(compeletedDoc);
+      if (completedSnap.exists()) {
+        setIsCompleteDocExists(true);
       }
     }
 
     if (userProfile !== null && assignment === null) {
       fetchAssignment();
+      checkCompetedDocExistance();
     }
-  }, [assignment, setAssignment, params.id, userProfile]);
+  }, [assignment, setAssignment, params.id, userProfile, setIsCompleteDocExists, isCompleteDocExists]);
 
   return (
     <>
@@ -103,7 +122,10 @@ export default function AssignmentView() {
         &&
         <>
           {
-            assignment === null && <Loading />
+            assignment === null && isAssignmentExists && <Loading />
+          }
+          {
+            assignment === null && !isAssignmentExists && <Loading message="This Assignment is not alloted to you. Have a nice day." />
           }
           {
             assignment !== null
@@ -124,8 +146,13 @@ export default function AssignmentView() {
 
                 <span>Select and upload the given assignment.</span>
               </div>
-              <div className='container mt-5 d-flex justify-content-end'>
-                <button className="btn btn-success" type="button" onClick={uploadAssignment}>Mark as Done</button>
+              <div className='container mt-5 d-flex flex-column align-items-end'>
+                {
+                  isCompleteDocExists && <span className='text-success'>You have already submitted this Assignment.</span>
+                }
+                {
+                uploadingLoading ? <span className='text-success'>Uploading...</span> : <button className="btn btn-success mt-3" type="button" onClick={uploadAssignment}>Mark as Done</button>
+                }
               </div>
             </>
           }
