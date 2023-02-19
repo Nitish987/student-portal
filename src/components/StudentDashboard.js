@@ -1,4 +1,4 @@
-import '../styles/StudentDashboard.css';
+import '../styles/Dashboard.css';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { db } from '../firebase/firebase';
