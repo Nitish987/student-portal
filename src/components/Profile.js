@@ -117,7 +117,7 @@ export default function Profile() {
             <div className='container-sm mt-5'>
               <h5>Profile Settings</h5>
               <div className="input-group">
-                <input type="file" className="form-control" id="inputGroupFile04" aria-describedby="profile-pic-choose" aria-label="Upload" onChange={onProfilePicChoosen} accept="image/*" />
+                <input type="file" className="form-control" aria-describedby="profile-pic-choose" aria-label="Upload" onChange={onProfilePicChoosen} accept="image/*" />
                 <button className="btn btn-outline-primary" type="button" id="profile-pic-choose" onClick={changeProfilePic}>Change Pic</button>
               </div>
             </div>

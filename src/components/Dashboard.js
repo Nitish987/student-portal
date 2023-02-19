@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import StudentDashboard from './StudentDashboard';
 import TeacherDashboard from './TeacherDashboard';
 import HodDashboard from './HodDashboard';
+import Loading from './Loading';
 import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
@@ -24,9 +25,7 @@ export default function Dashboard() {
             {
                 userProfile === null
                 ?
-                <div className='container-fluid d-flex justify-content-center mt-5'>
-                    <h4>Loading...</h4>
-                </div>
+                <Loading/>
                 :
                 <>
                     {

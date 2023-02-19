@@ -1,47 +1,73 @@
 import '../styles/StudentDashboard.css';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { db } from '../firebase/firebase';
+import { collection, doc, getDoc, getDocs, limit, orderBy, query, where } from 'firebase/firestore';
+import Assignment from './Assignment';
 
 export default function StudentDashboard() {
+  const userProfile = useSelector(state => state.user.profile);
+  const [department, setDepartment] = useState(null);
+  const [assignment, setAssignment] = useState(null);
+
+  useEffect(() => {
+    const fetchDepartment = async () => {
+      const departmentRef = doc(db, "department", userProfile.branch);
+      const departmentSnap = await getDoc(departmentRef);
+      if (departmentSnap.exists()) {
+        setDepartment(departmentSnap.data());
+      }
+    }
+
+    const fetchAssignments = async () => {
+      const assignmentRef = collection(db, "department", userProfile.branch, "assignments");
+      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "==", userProfile.section), where("year", "==", userProfile.year), limit(100));
+      const assigmentSnap = await getDocs(assignmentQuery);
+      const assignments = [];
+      assigmentSnap.forEach((doc) => assignments.push(doc.data()));
+      setAssignment(assignments);
+    }
+
+    if (department === null) {
+      fetchDepartment();
+    }
+    if (assignment === null) {
+      fetchAssignments();
+    }
+  }, [department, setDepartment, userProfile.branch, setAssignment, userProfile.section, userProfile.year, assignment]);
+
   return (
     <div className="container-fluid d-flex justify-content-center mt-4">
       <div className="dash-cont mt-2 d-flex w-75 flex-column">
         <div className="dashboard-content backgorund-img d-flex rounded-5 w-100 ">
           <div className="department d-flex align-items-end ms-4 mb-3 fs-1">
-            <span id="dep-name">IOT-A</span>
+            <span id="dep-name">{department && department.name}-{department && userProfile.section}</span>
           </div>
         </div>
         <div className="dash-data-cont d-flex w-100">
-          <div className="upcoming rounded-2 border w-25 m-3 p-3 fs-3">
-            <span>Upcoming</span>
-            <p className="fw-light fs-6 mt-2">No work now...</p>
+
+          <div className="upcoming rounded-2 border w-25 m-3 p-3 fs-3 mt-4">
+            <span>Upcoming...</span>
+            <p className="fw-light fs-6 mt-2">{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</p>
             <div className="d-flex w-100 flex-row-reverse">
-              <a href="/" className="fw-bold fs-6 text-decoration-none text-dark">view all</a>
+              <span className="fw-bold fs-6 text-decoration-none text-dark">{`Regards ${department && department.hod}`}</span>
             </div>
           </div>
+
           <div id='assignment-bar' className="assignment-cont d-flex flex-column rounded-4 p-3 w-75">
-            <div className="announcement-cont d-flex w-100 rounded-4 p-3 border align-items-center">
-              <div className="user-pic pic-cont rounded-circle me-3">
-                <img className="w-100 h-100" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp" alt="user" />
+            {
+              (assignment === null || assignment.length === 0) &&
+              <div className='d-flex justify-content-center mt-5'>
+                <h6>No Assignments are assigned.</h6>
               </div>
-              <span>Announce something</span>
-            </div>
-            <div className="assignment d-flex w-100 rounded-4 p-3 border align-items-center mt-3">
-              <div className="asgn-pic pic-cont rounded-circle me-3">
-                <img className="w-100 h-100" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp" alt="user" />
-              </div>
-              <div className="d-flex w-100">
-                <div className="w-75 d-flex flex-column">
-                  <span className="asgn-info fw-bold">Sir posted this: Upload your certificate</span>
-                  <span className="fw-light">Date now</span>
-                </div>
-                <div className="w-25 d-flex flex-row-reverse align-items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-three-dots-vertical me-4" viewBox="0 0 16 16">
-                    <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                  </svg>
-                </div>
-              </div>
-            </div>
+            }
+            {
+              assignment !== null && assignment.map(e => {
+                return <Assignment key={e.id} data={e}/>
+              })
+            }
           </div>
+
         </div>
       </div>
     </div>
