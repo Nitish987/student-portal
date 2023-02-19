@@ -161,7 +161,7 @@ export default function AssignmentView() {
                 }
 
                 <div className="input-group mt-5">
-                  <input type="file" className="form-control" aria-describedby="assignment-choose" aria-label="Upload" onChange={onFileSelected} />
+                  <input type="file" className="form-control" aria-describedby="assignment-choose" aria-label="Upload" accept='application/pdf' onChange={onFileSelected} />
                 </div>
 
                 <span>Select and upload the given assignment.</span>
@@ -171,7 +171,7 @@ export default function AssignmentView() {
                   isCompleteDocExists && <span className='text-success'>You have already submitted this Assignment.</span>
                 }
                 {
-                  uploadingLoading ? <span className='text-success'>Uploading...</span> : <button className="btn btn-success mt-3 mb-5" type="button" onClick={uploadAssignment}>Mark as Done</button>
+                  uploadingLoading ? <span className='text-success mt-3 mb-5'>Uploading...</span> : <button className="btn btn-success mt-3 mb-5" type="button" onClick={uploadAssignment}>Mark as Done</button>
                 }
               </div>
             </>
