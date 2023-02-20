@@ -13,7 +13,7 @@ export default function Dashboard() {
       }
     });
   }, [navigate]);
-
+  
   return (
     <div className="container-fluid d-flex justify-content-center">
         <div className="dash-cont d-flex w-75 flex-column">
