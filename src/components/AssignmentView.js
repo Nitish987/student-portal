@@ -154,7 +154,7 @@ export default function AssignmentView() {
                       }
                       {
                         assignment.attachmentType === "pdf" &&
-                        <iframe src={assignment.attachment} className="w-100 vh-100"></iframe>
+                        <iframe title='PDF' src={assignment.attachment} className="w-100 vh-100"></iframe>
                       }
                     </div>
                   </>

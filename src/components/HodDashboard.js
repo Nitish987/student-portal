@@ -24,7 +24,11 @@ export default function HodDashboard() {
   }
 
   const onAssignmentAssign = (e) => {
-    setAssignmentAssign({ ...assignmentAssign, [e.target.name]: e.target.value });
+    if (e.target.name === 'attachment') {
+      setAssignmentAssign({ ...assignmentAssign, attachment: e.target.files[0] });
+    } else {
+      setAssignmentAssign({ ...assignmentAssign, [e.target.name]: e.target.value });
+    }
   }
 
   const updateUpcomingMessage = (e) => {
@@ -42,8 +46,7 @@ export default function HodDashboard() {
     });
   }
 
-  const createAssignmentDoc = (id, url = null) => {
-    let fileType = assignmentAssign.attachmentType === 'image/*' ? "img" : assignmentAssign.attachmentType === 'application/pdf' ? "pdf" : null;
+  const createAssignmentDoc = (id, url, fileType) => {
     const assignmentData = {
       id: id,
       assignedBy: auth.currentUser.uid,
@@ -86,15 +89,25 @@ export default function HodDashboard() {
       return;
     }
 
-    const id = `assign${parseInt(Math.random() * 1000)}` + `${parseInt(Math.random() * 1000)}`;
+    const id = `assign${parseInt(Math.random() * 1000)}${parseInt(Math.random() * 1000)}`;
 
     if (assignmentAssign.attachment === null) {
-      createAssignmentDoc(id);
+      createAssignmentDoc(id, null, null);
     } else {
-      const storageRef = ref(storage, `assignment/${id}/${auth.currentUser.uid}.png`);
+      let fileType = null;
+      let storageRef = null;
+
+      if (assignmentAssign.attachmentType === 'image/*') {
+        fileType = "img";
+        storageRef = ref(storage, `assignment/${id}/${auth.currentUser.uid}.png`);
+      } else {
+        fileType = "pdf";
+        storageRef = ref(storage, `assignment/${id}/${auth.currentUser.uid}.pdf`);
+      }
+
       uploadBytes(storageRef, assignmentAssign.attachment).then((snapshot) => {
         getDownloadURL(storageRef).then((url) => {
-          createAssignmentDoc(id, url);
+          createAssignmentDoc(id, url, fileType);
         }).catch(() => {
           dispatch(showAlert({
             message: "Unable to Assign Assignment.",
