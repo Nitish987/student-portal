@@ -50,7 +50,7 @@ export default function StudentDashboard() {
             <span>Upcoming...</span>
             <p className="fw-light fs-6 mt-2">{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</p>
             <div className="d-flex w-100 flex-row-reverse">
-              <span className="fw-bold fs-6 text-decoration-none text-dark">{`Regards ${department && department.hod}`}</span>
+              <span className="fw-bold fs-6 text-decoration-none text-dark">Regards</span>
             </div>
           </div>
 

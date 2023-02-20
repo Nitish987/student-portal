@@ -50,7 +50,7 @@ export default function TeacherDashboard() {
             <span>Upcoming...</span>
             <p className="fw-light fs-6 mt-2">{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</p>
             <div className="d-flex w-100 flex-row-reverse">
-              <button className="fw-bold fs-6 btn btn-primary">{`Regards ${department && department.hod}`}</button>
+              <button className="fw-bold fs-6 btn btn-primary">Regards</button>
             </div>
           </div>
 
