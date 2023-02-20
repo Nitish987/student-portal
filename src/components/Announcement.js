@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Announcement() {
+export default function Announcement({ dataBsTarget }) {
     return (
-        <div className="announcement-cont d-flex w-100 rounded-4 p-3 border align-items-center mt-2">
+        <div className="announcement-cont d-flex w-100 rounded-4 p-3 border align-items-center mt-2" style={{cursor: "pointer"}} data-bs-toggle="modal" data-bs-target={dataBsTarget}>
             <div className="user-pic pic-cont rounded-circle me-3">
                 <img className="w-100 h-100" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp" alt="user" />
             </div>

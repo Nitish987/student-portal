@@ -1,7 +1,10 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 export default function Assignment({ data }) {
+  const userProfile = useSelector(state => state.user.profile);
+
   const timestamp = (time) => {
     const fireBaseTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000,);
     const date = fireBaseTime.toDateString();
@@ -21,7 +24,12 @@ export default function Assignment({ data }) {
             <span className="fw-light">{timestamp(data.onDate)}</span>
           </div>
           <div className="w-25 d-flex flex-row-reverse align-items-center">
-            <Link className="btn btn-light" to={`/assignment/${data.id}`}>Open</Link>
+            {
+              userProfile.role === 'student' && <Link className="btn btn-light" to={`/assignment/${data.id}`}>Open</Link>
+            }
+            {
+              userProfile.role === 'hod' && <Link className="btn btn-light" to={`/assigned/${data.id}`}>Open</Link>
+            }
           </div>
         </div>
       </div>
