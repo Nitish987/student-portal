@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import female_svg from '../res/svg/female.svg';
+import male_svg from '../res/svg/male.svg';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../firebase/firebase';
 
 export default function Assignment({ data }) {
   const userProfile = useSelector(state => state.user.profile);
+  const [pic, setPic] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const timestamp = (time) => {
     const fireBaseTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000,);
@@ -12,11 +19,36 @@ export default function Assignment({ data }) {
     return date + " - " + atTime;
   }
 
+  const getProfilePic = () => {
+    if (pic === null) {
+      if (gender === 'M') {
+        return male_svg;
+      }
+      if (gender === 'F') {
+        return female_svg;
+      }
+    }
+    return pic;
+  }
+
+  useEffect(() => {
+    if (gender === null && !isLoaded) {
+      const profileRef = doc(db, "user", data.assignedBy);
+      getDoc(profileRef).then(profileSnap => {
+        if (profileSnap.exists()) {
+          setPic(profileSnap.data().photo);
+          setGender(profileSnap.data().gender);
+        }
+      });
+      setIsLoaded(true);
+    }
+  }, [pic, gender, setPic, setGender, data.assignedBy, isLoaded]);
+
   return (
     <>
       <div className="assignment d-flex w-100 rounded-4 p-3 border align-items-center mt-2">
         <div className="asgn-pic pic-cont rounded-circle me-3">
-          <img className="w-100 h-100" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.webp" alt="user" />
+          <img className="w-100 h-100" src={getProfilePic()} style={{borderRadius: "100%"}} alt="user" />
         </div>
         <div className="d-flex w-100">
           <div className="w-75 d-flex flex-column">

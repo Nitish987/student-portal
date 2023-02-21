@@ -1,6 +1,6 @@
 import "../styles/Login.css";
 import React, { useEffect, useState } from "react";
-import { signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { signInWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { useDispatch } from "react-redux";
@@ -43,6 +43,30 @@ export default function Login() {
     });
   }
 
+  const forgetPasswordLink = (e) => {
+    e.preventDefault();
+
+    if (user.email === '') {
+      dispatch(showAlert({
+        message: "Enter the Email and then click on forget password to get reset password link.",
+        type: "warning"
+      }));
+      return;
+    }
+
+    sendPasswordResetEmail(auth, user.email).then(() => {
+      dispatch(showAlert({
+        message: "You got an Email to reset password. Click on the given link and reset your password.",
+        type: "success"
+      }));
+    }).catch(() => {
+      dispatch(showAlert({
+        message: "Something went wrong while sending reser password link.",
+        type: "danger"
+      }));
+    });
+  }
+
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -66,6 +90,12 @@ export default function Login() {
           </div>
           <div className="d-flex justify-content-center">
             <button type="submit" className="btn btn-primary mb-3 w-100" onClick={login}>Login</button>
+          </div>
+          <div className="d-flex justify-content-end">
+            <span className="mb-3" style={{cursor: 'pointer'}} onClick={forgetPasswordLink}>Forget Password</span>
+          </div>
+          <div className="d-flex justify-content-center">
+            <span className="mb-3">RKGITSP CSE-IOT Department &copy; 2023</span>
           </div>
         </form>
       </div>

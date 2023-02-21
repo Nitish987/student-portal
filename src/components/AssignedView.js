@@ -140,13 +140,31 @@ export default function AssignedView() {
                 {
                   completions &&
                   completions.map((e) => {
-                    return <DetailCard key={e.uid} name={e.name} rollno={e.rollno} file={e.file}/>
+                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} />
                   })
                 }
 
               </div>
               <div className='container mt-5 d-flex flex-column align-items-end'>
-                <button className="btn btn-danger mt-3 mb-5" type="button" onClick={deleteAssigned}>Delete Assignment</button>
+                <button className="btn btn-danger mt-3 mb-5" type="button" data-bs-toggle="modal" data-bs-target="#delete-assgnmt">Remove Assignment</button>
+              </div>
+
+              <div className="modal fade" id="delete-assgnmt" tabIndex="-1" aria-labelledby="delete-assgnmt-label" aria-hidden="true">
+                <div className="modal-dialog">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h1 className="modal-title fs-5" id="delete-assgnmt-label">Remove Assignment</h1>
+                      <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div className="modal-body">
+                      Are you sure to remove this assignment.
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-danger" onClick={deleteAssigned}>Delete</button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </>
           }
