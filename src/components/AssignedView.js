@@ -140,7 +140,7 @@ export default function AssignedView() {
                 {
                   completions &&
                   completions.map((e) => {
-                    return <DetailCard name={e.name} rollno={e.rollno} />
+                    return <DetailCard key={e.uid} name={e.name} rollno={e.rollno} file={e.file}/>
                   })
                 }
 

@@ -13,6 +13,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { setUserProfileData } from "./features/user/userSlice";
 import AssignmentView from "./components/AssignmentView";
 import AssignedView from "./components/AssignedView";
+import PdfViewer from "./components/PdfViewer";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/assignment/:id" element={<AssignmentView />} />
           <Route path="/assigned/:id" element={<AssignedView />} />
+          <Route path="/pdf" element={<PdfViewer />} />
         </Routes>
       </BrowserRouter>
     </>
