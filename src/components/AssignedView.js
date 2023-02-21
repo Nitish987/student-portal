@@ -81,9 +81,11 @@ export default function AssignedView() {
 
     if (userProfile !== null && (userProfile.role === "hod" || userProfile.role === "teacher") && assignment === null) {
       fetchAssignment();
-      fetchCompletions();
     } else {
       setIsAssignmentExists(false);
+    }
+    if (assignment !== null && assignment.isAssgnmt) {
+      fetchCompletions();
     }
   }, [assignment, setAssignment, params.id, userProfile]);
 
@@ -107,13 +109,18 @@ export default function AssignedView() {
             &&
             <>
               <div className='container mt-5'>
-                <h4>Assignment | {assignment.subject}</h4>
+                <h4>{assignment.isAssgnmt ? "Assignment" : "Notes"} | {assignment.subject}</h4>
                 <span>{assignment.message}</span>
                 <br />
                 <br />
                 <span>Assigned on - {timestamp(assignment.onDate)}</span>
-                <br />
-                <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
+                {
+                  assignment.isAssgnmt &&
+                  <>
+                    <br />
+                    <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
+                  </>
+                }
                 <br />
                 <br />
 
@@ -135,12 +142,15 @@ export default function AssignedView() {
                   </>
                 }
 
-                <h6 className='mt-5'><b>Completed By - {assignment.branch.toUpperCase()} - {assignment.section} - {assignment.year} year [{completions === null ? '0' : completions.length} Student]</b></h6>
+                {
+                  assignment.isAssgnmt &&
+                  <h6 className='mt-5'><b>Completed By - {assignment.branch.toUpperCase()} - {assignment.section} - {assignment.year} year [{completions === null ? '0' : completions.length} Student]</b></h6>
+                }
 
                 {
-                  completions &&
+                  completions && assignment.isAssgnmt &&
                   completions.map((e) => {
-                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate}/>
+                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate} />
                   })
                 }
 

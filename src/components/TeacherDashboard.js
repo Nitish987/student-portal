@@ -13,16 +13,24 @@ export default function TeacherDashboard() {
   const userProfile = useSelector(state => state.user.profile);
   const [department, setDepartment] = useState(null);
   const [assignment, setAssignment] = useState(null);
-  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', section: 'A', attachment: null, attachmentType: null, outDate: '' });
+  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', section: 'A', isAssgnmt: "true", attachment: null, attachmentType: null, outDate: '' });
+  const [isAssgnmt, setIsAssgnmt] = useState(true);
   const assignAssignmentCloseBtn = useRef(null);
   const assignmentForm = useRef(null);
 
   const onAssignmentAssign = (e) => {
     if (e.target.name === 'attachment') {
       setAssignmentAssign({ ...assignmentAssign, attachment: e.target.files[0] });
-    } else {
-      setAssignmentAssign({ ...assignmentAssign, [e.target.name]: e.target.value });
+      return;
     }
+    if (e.target.name === 'isAssgnmt') {
+      if (e.target.value === 'true') {
+        setIsAssgnmt(true);
+      } else {
+        setIsAssgnmt(false);
+      }
+    }
+    setAssignmentAssign({ ...assignmentAssign, [e.target.name]: e.target.value });
   }
 
   const createAssignmentDoc = (id, url, fileType) => {
@@ -34,6 +42,7 @@ export default function TeacherDashboard() {
       attachment: url,
       attachmentType: fileType,
       branch: userProfile.branch,
+      isAssgnmt: isAssgnmt,
       onDate: Timestamp.now(),
       outDate: Timestamp.fromDate(new Date(assignmentAssign.outDate)),
       section: assignmentAssign.section,
@@ -200,6 +209,11 @@ export default function TeacherDashboard() {
                   <option value="B">Section - B</option>
                   <option value="C">Section - C</option>
                   <option value="D">Section - D</option>
+                </select>
+
+                <select className="form-select mb-3" aria-label=".form-select-lg" name='isAssgnmt' onChange={onAssignmentAssign}>
+                  <option value="true">Assignment</option>
+                  <option value="false">Notes</option>
                 </select>
 
                 <span>Attachment</span>
