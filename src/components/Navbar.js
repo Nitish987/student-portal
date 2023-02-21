@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import logo from '../logo.svg';
+import logo from '../res/img/rkgitlogo.png';
 import profile_svg from '../res/svg/profile.svg';
 
 export default function Navbar() {
@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav className="navbar navbar-expand-lg bg-body-tertiary bg-dark">
       <div className="container-fluid">
         <a className="navbar-brand text-light" href="/">
-          <img src={logo} alt="Logo" width="29" height="29" className="d-inline-block align-text-top" />
+          <img src={logo} alt="Logo" width="29" height="29" className="d-inline-block align-text-top me-2" />
           RKGITSP
         </a>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

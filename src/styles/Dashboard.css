@@ -4,7 +4,7 @@
     background-size: cover;
 }
 .dashboard-content{
-    background-image: url('https://t4.ftcdn.net/jpg/05/61/53/69/360_F_561536913_navu4AydRORIDwJSeHieNUYx1Efqi85t.webp');
+    background-image: url('../res/img/bg.jpg');
     height: 25vh;
     background-color: aqua;
 }
