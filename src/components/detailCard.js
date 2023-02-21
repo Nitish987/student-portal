@@ -7,7 +7,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebase/firebase';
 import { setNewData } from '../features/bundle/bundleSlice';
 
-const DetailCard = ({ uid, name, rollno, file }) => {
+const DetailCard = ({ uid, name, rollno, file, date, outDate }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [pic, setPic] = useState(null);
@@ -46,14 +46,14 @@ const DetailCard = ({ uid, name, rollno, file }) => {
 
   return (
     <>
-      <div className="container mt-3" onClick={updateBundleData} style={{cursor: "pointer"}}>
+      <div className="container mt-3" onClick={updateBundleData} style={{ cursor: "pointer" }}>
         <div className="w-100">
-          <div className="card card-body text-black" style={{borderRadius: "15px"}}>
+          <div className="card card-body text-black" style={{ borderRadius: "15px" }}>
             <div className="d-flex align-items-center">
               <img src={getProfilePic()} alt="profile-pic" className="img-fluid rounded-circle " style={{ width: '50px', height: '50px' }} />
               <div className=" ms-3">
                 <p className="mb-0 me-1">{name}</p>
-                <p className='text-success mb-0 me-1'>{rollno} - COMPLETED</p>
+                <p className={`text-${outDate.toMillis() > date.toMillis() ? "success" : "danger"} mb-0 me-1`}>{rollno} - COMPLETED</p>
               </div>
             </div>
           </div>

@@ -140,7 +140,7 @@ export default function AssignedView() {
                 {
                   completions &&
                   completions.map((e) => {
-                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} />
+                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate}/>
                   })
                 }
 
@@ -159,7 +159,7 @@ export default function AssignedView() {
                     <div className="modal-body">
                       Are you sure to remove this assignment.
                     </div>
-                    <div class="modal-footer">
+                    <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                       <button type="button" className="btn btn-danger" onClick={deleteAssigned}>Delete</button>
                     </div>

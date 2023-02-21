@@ -231,7 +231,7 @@ export default function HodDashboard() {
                   <textarea className="form-control" id='message' name='message' rows="3" style={{ resize: "none" }} onChange={onAssignmentAssign}></textarea>
                 </div>
 
-                <select className="form-select mb-3" aria-label=".form-select-lg" name='year'>
+                <select className="form-select mb-3" aria-label=".form-select-lg" name='year' onChange={onAssignmentAssign}>
                   <option value="1">Year - 1</option>
                   <option value="2">Year - 2</option>
                   <option value="3">Year - 3</option>

@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -53,7 +53,8 @@ export default function AssignmentView() {
             name: userProfile.name,
             rollno: userProfile.rollno,
             file: url,
-            uid: auth.currentUser.uid
+            uid: auth.currentUser.uid,
+            date: Timestamp.now()
           }).then(() => {
             dispatch(showAlert({
               message: "Assignment Completed.",
@@ -62,6 +63,7 @@ export default function AssignmentView() {
             return;
           }).finally(() => {
             setUploadingLoading(false);
+            isCompleteDocExists(true);
           });
 
         } else {
@@ -70,7 +72,8 @@ export default function AssignmentView() {
             name: userProfile.name,
             rollno: userProfile.rollno,
             file: url,
-            uid: auth.currentUser.uid
+            uid: auth.currentUser.uid,
+            date: Timestamp.now()
           }).then(() => {
             dispatch(showAlert({
               message: "Assignment Completed.",
@@ -79,6 +82,7 @@ export default function AssignmentView() {
             return;
           }).finally(() => {
             setUploadingLoading(false);
+            isCompleteDocExists(true);
           });
 
         }
