@@ -28,7 +28,7 @@ export default function Assignment({ data }) {
               userProfile.role === 'student' && <Link className="btn btn-light" to={`/assignment/${data.id}`}>Open</Link>
             }
             {
-              userProfile.role === 'hod' && <Link className="btn btn-light" to={`/assigned/${data.id}`}>View</Link>
+              (userProfile.role === 'hod' || userProfile.role === 'teacher') && <Link className="btn btn-light" to={`/assigned/${data.id}`}>View</Link>
             }
           </div>
         </div>

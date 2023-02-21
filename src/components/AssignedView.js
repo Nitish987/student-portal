@@ -79,7 +79,7 @@ export default function AssignedView() {
       setCompletions(completed);
     }
 
-    if (userProfile !== null && userProfile.role === "hod" && assignment === null) {
+    if (userProfile !== null && (userProfile.role === "hod" || userProfile.role === "teacher") && assignment === null) {
       fetchAssignment();
       fetchCompletions();
     } else {
