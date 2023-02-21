@@ -23,13 +23,8 @@ export default function Navbar() {
             <li className="nav-item">
               <a className="nav-link active text-light" aria-current="page" href="/">Home</a>
             </li>
-            <li className="nav-item">
-              <a className="nav-link text-light" href="/">Link</a>
-            </li>
           </ul>
           <div className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-success" type="submit">Search</button>
             <button className="btn btn-success ms-2" onClick={toProfile}>
               <img src={profile_svg} alt="profile" width="29" height="29"/>
             </button>
