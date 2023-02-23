@@ -14,6 +14,7 @@ import { setUserProfileData } from "./features/user/userSlice";
 import AssignmentView from "./components/AssignmentView";
 import AssignedView from "./components/AssignedView";
 import PdfViewer from "./components/PdfViewer";
+import Notes from "./components/Notes";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
           <Route path="/assignment/:id" element={<AssignmentView />} />
           <Route path="/assigned/:id" element={<AssignedView />} />
           <Route path="/pdf" element={<PdfViewer />} />
+          <Route path="/notes" element={<Notes />} />
         </Routes>
       </BrowserRouter>
     </>

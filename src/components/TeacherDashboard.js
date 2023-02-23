@@ -29,7 +29,7 @@ export default function TeacherDashboard() {
   const onSection = (e) => {
     const s = e.target.value;
     if (section.includes(s)) {
-      const newSection = section.filter((e) => e != s);
+      const newSection = section.filter((e) => e !== s);
       setSection(newSection);
     } else {
       section.push(s);

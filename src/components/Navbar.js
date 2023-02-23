@@ -1,10 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import logo from '../res/img/rkgitlogo.png';
 import profile_svg from '../res/svg/profile.svg';
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const userProfile = useSelector(state => state.user.profile);
 
   const toProfile = (e) => navigate('/profile');
 
@@ -21,8 +23,14 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <a className="nav-link active text-light" aria-current="page" href="/">Home</a>
+              <a className="nav-link active text-light" aria-current="page" href="/">Dashboard</a>
             </li>
+            {
+              userProfile && (userProfile.role === "hod" || userProfile.role === "teacher") && 
+              <li className="nav-item">
+              <a className="nav-link active text-light" aria-current="page" href="/notes">Notes</a>
+            </li>
+            }
           </ul>
           <div className="d-flex" role="search">
             <button className="btn btn-success" onClick={toProfile}>
