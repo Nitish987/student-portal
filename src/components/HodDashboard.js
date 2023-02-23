@@ -14,8 +14,8 @@ export default function HodDashboard() {
   const [department, setDepartment] = useState(null);
   const [assignment, setAssignment] = useState(null);
   const [upcomingMessage, setUpcomingMessage] = useState("");
-  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', section: 'A', isAssgnmt: "true", attachment: null, attachmentType: null, outDate: '' });
-  const [isAssgnmt, setIsAssgnmt] = useState(true);
+  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
+  const [section, setSection] = useState([]);
   const upcomingModalCloseBtn = useRef(null);
   const assignAssignmentCloseBtn = useRef(null);
   const assignmentForm = useRef(null);
@@ -29,14 +29,18 @@ export default function HodDashboard() {
       setAssignmentAssign({ ...assignmentAssign, attachment: e.target.files[0] });
       return;
     }
-    if (e.target.name === 'isAssgnmt') {
-      if (e.target.value === 'true') {
-        setIsAssgnmt(true);
-      } else {
-        setIsAssgnmt(false);
-      }
-    }
     setAssignmentAssign({ ...assignmentAssign, [e.target.name]: e.target.value });
+  }
+
+  const onSection = (e) => {
+    const s = e.target.value;
+    if (section.includes(s)) {
+      const newSection = section.filter((e) => e != s);
+      setSection(newSection);
+    } else {
+      section.push(s);
+      setSection(section);
+    }
   }
 
   const updateUpcomingMessage = (e) => {
@@ -63,14 +67,15 @@ export default function HodDashboard() {
       attachment: url,
       attachmentType: fileType,
       branch: userProfile.branch,
-      isAssgnmt: isAssgnmt,
+      type: assignmentAssign.type,
       onDate: Timestamp.now(),
       outDate: Timestamp.fromDate(new Date(assignmentAssign.outDate)),
-      section: assignmentAssign.section,
+      section: section,
       year: parseInt(assignmentAssign.year)
     }
     const documentRef = doc(db, "department", userProfile.branch, "assignments", id);
     setDoc(documentRef, assignmentData).then(() => {
+      assignAssignmentCloseBtn.current.click();
       dispatch(showAlert({
         message: "Assignment assigned successfully.",
         type: "primary"
@@ -82,9 +87,9 @@ export default function HodDashboard() {
       }));
     }).finally(() => {
       assignmentForm.current.reset();
-      setAssignmentAssign({ subject: '', message: '', year: '1', section: 'A', attachment: null, attachmentType: null, outDate: '' });
+      setAssignmentAssign({ subject: '', message: '', year: '', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
+      setSection([]);
       setAssignment([assignmentData].concat(assignment));
-      assignAssignmentCloseBtn.current.click();
     });
   }
 
@@ -247,16 +252,31 @@ export default function HodDashboard() {
                   <option value="4">Year - 4</option>
                 </select>
 
-                <select className="form-select mb-3" aria-label=".form-select-lg" name='section' onChange={onAssignmentAssign}>
-                  <option value="A">Section - A</option>
-                  <option value="B">Section - B</option>
-                  <option value="C">Section - C</option>
-                  <option value="D">Section - D</option>
-                </select>
+                <span>Section</span>
+                <div className='d-flex mb-3' style={{ gap: "17px" }}>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="A" onChange={onSection}/>
+                    <label className="form-check-label" htmlFor="defaultCheckA">A</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="B" onChange={onSection}/>
+                    <label className="form-check-label" htmlFor="defaultCheckB">B</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="C" onChange={onSection}/>
+                    <label className="form-check-label" htmlFor="defaultCheckC">C</label>
+                  </div>
+                  <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="D" onChange={onSection}/>
+                    <label className="form-check-label" htmlFor="defaultCheckD">D</label>
+                  </div>
+                </div>
 
-                <select className="form-select mb-3" aria-label=".form-select-lg" name='isAssgnmt' onChange={onAssignmentAssign}>
-                  <option value="true">Assignment</option>
-                  <option value="false">Notes</option>
+                <span>Announcement Type</span>
+                <select className="form-select mb-3" aria-label=".form-select-lg" name='type' onChange={onAssignmentAssign}>
+                  <option value="ANMT">Announcement</option>
+                  <option value="ASMT">Assignment</option>
+                  <option value="NOTS">Notes</option>
                 </select>
 
                 <span>Attachment</span>

@@ -14,9 +14,10 @@
     border-radius: 10px;
   }
   
-  .cont h1 {
+  .cont h2 {
     text-align: center;
     padding: 0 0 20px 0;
+    margin-top: 10px;
     border-bottom: 1px solid silver;
   }
   

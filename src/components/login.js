@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showAlert } from "../features/alert/AlertSlice";
 import { setUserProfileData } from "../features/user/userSlice"
+import logo from '../res/img/rkgitlogo.png';
 
 export default function Login() {
   const [user, setUser] = useState({ email: '', password: '' });
@@ -78,7 +79,10 @@ export default function Login() {
   return (
     <div className="login-bg w-100 h-100">
       <div className="cont">
-        <h1>RKGITSP LOGIN</h1>
+        <div className="container d-flex justify-content-center">
+          <img src={logo} alt="rkgit_logo" style={{width: "120px", height: "120px"}}/>
+        </div>
+        <h2>RKGITSP LOGIN</h2>
         <form className="login-form" method="post">
           <div className="input-group mb-3 mt-4">
             <span className="input-group-text" id="basic-email">@</span>

@@ -21,7 +21,7 @@ export default function StudentDashboard() {
 
     const fetchAssignments = async () => {
       const assignmentRef = collection(db, "department", userProfile.branch, "assignments");
-      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "==", userProfile.section), where("year", "==", userProfile.year), limit(100));
+      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "array-contains", userProfile.section), where("year", "==", userProfile.year), limit(100));
       const assigmentSnap = await getDocs(assignmentQuery);
       const assignments = [];
       assigmentSnap.forEach((doc) => assignments.push(doc.data()));

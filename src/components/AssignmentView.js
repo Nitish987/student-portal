@@ -95,7 +95,7 @@ export default function AssignmentView() {
     const fetchAssignment = async () => {
       const assignmentRef = doc(db, "department", userProfile.branch, "assignments", params.id);
       const assignmentSnap = await getDoc(assignmentRef);
-      if (assignmentSnap.exists() && assignmentSnap.data().section === userProfile.section && assignmentSnap.data().year === userProfile.year && assignmentSnap.data().branch === userProfile.branch) {
+      if (assignmentSnap.exists() && assignmentSnap.data().section.includes(userProfile.section) && assignmentSnap.data().year === userProfile.year && assignmentSnap.data().branch === userProfile.branch) {
         setAssignment(assignmentSnap.data());
       } else {
         setIsAssignmentExists(false);
@@ -136,13 +136,13 @@ export default function AssignmentView() {
             &&
             <>
               <div className='container mt-5'>
-                <h4>{assignment.isAssgnmt ? "Assignment" : "Notes"} | {assignment.subject}</h4>
+                <h4>{assignment.type === "NOTS" ? "Notes" : assignment.type === "ASMT" ? "Assignment" : "Announcement"} | {assignment.subject}</h4>
                 <span>{assignment.message}</span>
                 <br />
                 <br />
                 <span>Assigned on - {timestamp(assignment.onDate)}</span>
                 {
-                  assignment.isAssgnmt &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
                   <>
                     <br />
                     <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
@@ -170,7 +170,7 @@ export default function AssignmentView() {
                 }
 
                 {
-                  assignment.isAssgnmt &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
                   <>
                     <div className="input-group mt-5">
                       <input type="file" className="form-control" aria-describedby="assignment-choose" aria-label="Upload" accept='application/pdf' onChange={onFileSelected} />
@@ -181,7 +181,7 @@ export default function AssignmentView() {
 
               </div>
               {
-                assignment.isAssgnmt &&
+                (assignment.type === "ASMT" || assignment.type === "ANMT") &&
                 <div className='container mt-5 d-flex flex-column align-items-end'>
                   {
                     isCompleteDocExists && <span className='text-success'>You have already submitted this Assignment.</span>
