@@ -189,13 +189,13 @@ export default function Notes() {
   return (
     <>
       {
-        userProfile === "teacher" ? <Loading message="Something went Wrong!" /> :
+        userProfile && userProfile.role === "teacher" ? <Loading message="Something went Wrong!" /> :
           <div className='container-fluid mt-4'>
             <div className='container mt-3'>
               <h1>Notes</h1>
               <div className='d-flex mt-4 mb-4' style={{ gap: "10" }}>
                 {
-                  userProfile.role === "hod" &&
+                  userProfile && userProfile.role === "hod" &&
                   <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-subject">Add Subject</button>
                 }
               </div>

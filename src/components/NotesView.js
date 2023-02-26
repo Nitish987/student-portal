@@ -29,7 +29,7 @@ export default function NotesView({ title, data, upload }) {
                       <Accordion.Header>{n.subject}</Accordion.Header>
                       <Accordion.Body>
                         {
-                          userProfile.role === "hod" &&
+                          userProfile && userProfile.role === "hod" &&
                           <button type="button" className="btn btn-outline-danger mb-3" onClick={(e) => deleteSubject(n.id)}>Delete Subject</button>
                         }
                         {
@@ -42,7 +42,7 @@ export default function NotesView({ title, data, upload }) {
                                     <Accordion.Body >
                                       <div className='d-flex flex-column'>
                                         {
-                                          userProfile.role === "hod" &&
+                                          userProfile && userProfile.role === "hod" &&
                                           <button type="button" className="btn btn-outline-primary" onClick={(e) => upload({ id: n.id, si: si, sem: n.semester, name: n.subject, unit: i + 1, units: n.units })}>Upload</button>
                                         }
                                         {

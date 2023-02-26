@@ -26,11 +26,14 @@ export default function Navbar() {
               <a className="nav-link active text-light" aria-current="page" href="/">Dashboard</a>
             </li>
             {
-              userProfile && (userProfile.role === "hod" || userProfile.role === "student") && 
+              userProfile && (userProfile.role === "hod" || userProfile.role === "student") &&
               <li className="nav-item">
-              <a className="nav-link active text-light" aria-current="page" href="/notes">Notes</a>
-            </li>
+                <a className="nav-link active text-light" aria-current="page" href="/notes">Notes</a>
+              </li>
             }
+            <li className="nav-item">
+              <a className="nav-link active text-light" aria-current="page" href="/activity">Activity</a>
+            </li>
           </ul>
           <div className="d-flex" role="search">
             <button className="btn btn-success" onClick={toProfile}>

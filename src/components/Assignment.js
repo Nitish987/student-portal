@@ -32,7 +32,7 @@ export default function Assignment({ data }) {
   }
 
   useEffect(() => {
-    if (gender === null && !isLoaded) {
+    if (gender === null && !isLoaded && userProfile && userProfile.role !== 'hod') {
       const profileRef = doc(db, "user", data.assignedBy);
       getDoc(profileRef).then(profileSnap => {
         if (profileSnap.exists()) {
@@ -42,13 +42,13 @@ export default function Assignment({ data }) {
       });
       setIsLoaded(true);
     }
-  }, [pic, gender, setPic, setGender, data.assignedBy, isLoaded]);
+  }, [pic, gender, setPic, setGender, data.assignedBy, isLoaded, userProfile]);
 
   return (
     <>
       <div className="assignment d-flex w-100 rounded-4 p-3 border align-items-center mt-2">
         <div className="asgn-pic pic-cont rounded-circle me-3">
-          <img className="w-100 h-100" src={getProfilePic()} style={{borderRadius: "100%"}} alt="user" />
+          <img className="w-100 h-100" src={userProfile && userProfile.role !== 'hod' ? getProfilePic() : userProfile.photo} style={{borderRadius: "100%"}} alt="user" />
         </div>
         <div className="d-flex w-100">
           <div className="w-75 d-flex flex-column">
