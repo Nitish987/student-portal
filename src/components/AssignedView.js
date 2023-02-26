@@ -144,14 +144,33 @@ export default function AssignedView() {
 
                 {
                   (assignment.type === "ASMT" || assignment.type === "ANMT") &&
-                  <h6 className='mt-5'><b>Completed By - {assignment.branch.toUpperCase()} - {assignment.section} - {assignment.year} year [{completions === null ? '0' : completions.length} Student]</b></h6>
+                  <h6 className='mt-5'><b>Completed By - {assignment.branch.toUpperCase()} - {assignment.section.join(',')} - {assignment.year} year [{completions === null ? '0' : completions.length} Student]</b></h6>
                 }
 
                 {
                   completions && (assignment.type === "ASMT" || assignment.type === "ANMT") &&
-                  completions.map((e) => {
-                    return <DetailCard key={e.uid} uid={e.uid} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate} />
-                  })
+                  <>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Roll.no.</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Completed</th>
+                          <th scope="col">file</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          completions.map((e, i) => {
+                            return (
+                              <DetailCard key={e.uid} sno={i + 1} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate} />
+                            );
+                          })
+                        }
+                      </tbody>
+                    </table>
+                  </>
                 }
 
               </div>

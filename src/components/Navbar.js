@@ -34,6 +34,12 @@ export default function Navbar() {
             <li className="nav-item">
               <a className="nav-link active text-light" aria-current="page" href="/activity">Activity</a>
             </li>
+            {
+              userProfile && userProfile.role === "hod" &&
+                <li className="nav-item">
+                  <a className="nav-link active text-light" aria-current="page" href="/tabulation">Tabulation</a>
+                </li>
+            }
           </ul>
           <div className="d-flex" role="search">
             <button className="btn btn-success" onClick={toProfile}>

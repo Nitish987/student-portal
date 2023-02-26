@@ -16,6 +16,7 @@ import AssignedView from "./components/AssignedView";
 import PdfViewer from "./components/PdfViewer";
 import Notes from "./components/Notes";
 import Activity from "./components/Activity";
+import Tabulation from "./components/Tabulation";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ function App() {
           <Route path="/pdf" element={<PdfViewer />} />
           <Route path="/notes" element={<Notes />} />
           <Route path="/activity" element={<Activity />} />
+          <Route path="/tabulation" element={<Tabulation />} />
         </Routes>
       </BrowserRouter>
     </>
