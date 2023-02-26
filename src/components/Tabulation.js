@@ -31,75 +31,82 @@ export default function Tabulation() {
       setUsers(allUsers);
     }
 
-    if (userProfile && users === null && !isLoaded) {
+    if (userProfile && userProfile.role === 'hod' && users === null && !isLoaded) {
       fetchUsers();
       setIsLoaded(true);
     }
   }, [users, userProfile, isLoaded]);
   return (
-    <div className='container-fluid mt-4'>
-      <div className='container mt-3 mb-3'>
-        <h1 className='mb-3'>Tabulation</h1>
-        <div className="row g-3">
-          <div className="col">
-            <select className="form-select mb-3" aria-label=".form-select-lg" name='year' onChange={onFilter}>
-              <option value="1">Year - 1</option>
-              <option value="2">Year - 2</option>
-              <option value="3">Year - 3</option>
-              <option value="4">Year - 4</option>
-              <option value="5">B.Tech Completed</option>
-            </select>
-          </div>
-          <div className="col">
-            <select className="form-select mb-3" aria-label=".form-select-lg" name='section' onChange={onFilter}>
-              <option value="A">Section - A</option>
-              <option value="B">Section - B</option>
-              <option value="C">Section - C</option>
-              <option value="D">Section - D</option>
-            </select>
-          </div>
-          <div className="col">
-            <button type='button' className='btn btn-primary' onClick={search}>Search</button>
+    <>
+      {
+        (userProfile && userProfile.role === 'hod') ?
+        <div className='container-fluid mt-4'>
+          <div className='container mt-3 mb-3'>
+            <h1 className='mb-3'>Tabulation</h1>
+            <div className="row g-3">
+              <div className="col">
+                <select className="form-select mb-3" aria-label=".form-select-lg" name='year' onChange={onFilter}>
+                  <option value="1">Year - 1</option>
+                  <option value="2">Year - 2</option>
+                  <option value="3">Year - 3</option>
+                  <option value="4">Year - 4</option>
+                  <option value="5">B.Tech Completed</option>
+                </select>
+              </div>
+              <div className="col">
+                <select className="form-select mb-3" aria-label=".form-select-lg" name='section' onChange={onFilter}>
+                  <option value="A">Section - A</option>
+                  <option value="B">Section - B</option>
+                  <option value="C">Section - C</option>
+                  <option value="D">Section - D</option>
+                </select>
+              </div>
+              <div className="col">
+                <button type='button' className='btn btn-primary' onClick={search}>Search</button>
+              </div>
+            </div>
+            {
+              (filteredUsers === null || filteredUsers.length === 0) ? <Loading message="No Student Found." /> :
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Roll.no.</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Father's Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Phone</th>
+                      <th scope="col">Activity</th>
+                      <th scope="col">Activity Attachment</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      filteredUsers.map((e, i) => {
+                        return (
+                          <React.Fragment key={i}>
+                            <tr>
+                              <th scope="row">{i + 1}</th>
+                              <td>{e.rollno}</td>
+                              <td>{e.name}</td>
+                              <td>{e.fatherName}</td>
+                              <td>{e.email}</td>
+                              <td>{e.phone}</td>
+                              <td>{e.activity ? e.activity.message : '-'}</td>
+                              <td>{(e.activity && e.activity.attachment) ? <a href={e.activity.attachment} target="_blank" rel="noreferrer">Attachment</a> : '-'}</td>
+                            </tr>
+                          </React.Fragment>
+                        );
+                      })
+                    }
+                  </tbody>
+                </table>
+            }
           </div>
         </div>
-        {
-          (filteredUsers === null || filteredUsers.length === 0) ? <Loading message="No Student Found." /> :
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Roll.no.</th>
-                <th scope="col">Name</th>
-                <th scope="col">Father's Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Phone</th>
-                <th scope="col">Activity</th>
-                <th scope="col">Activity Attachment</th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                filteredUsers.map((e, i) => {
-                  return (
-                    <React.Fragment key={i}>
-                      <tr>
-                        <th scope="row">{i + 1}</th>
-                        <td>{e.rollno}</td>
-                        <td>{e.name}</td>
-                        <td>{e.fatherName}</td>
-                        <td>{e.email}</td>
-                        <td>{e.phone}</td>
-                        <td>{e.activity ? e.activity.message : '-'}</td>
-                        <td>{(e.activity && e.activity.attachment) ? <a href={e.activity.attachment} target="_blank">Attachment</a> : '-'}</td>
-                      </tr>
-                    </React.Fragment>
-                  );
-                })
-              }
-            </tbody>
-          </table>
-        }
-      </div>
-    </div>
+        :
+        <Loading message="Something went wrong!"/>
+      }
+    </>
   )
 }
