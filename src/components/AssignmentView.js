@@ -52,6 +52,7 @@ export default function AssignmentView() {
           updateDoc(compeletedDoc, {
             name: userProfile.name,
             rollno: userProfile.rollno,
+            section: userProfile.section,
             file: url,
             uid: auth.currentUser.uid,
             date: Timestamp.now()
@@ -71,6 +72,7 @@ export default function AssignmentView() {
           setDoc(compeletedDoc, {
             name: userProfile.name,
             rollno: userProfile.rollno,
+            section: userProfile.section,
             file: url,
             uid: auth.currentUser.uid,
             date: Timestamp.now()

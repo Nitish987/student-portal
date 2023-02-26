@@ -154,8 +154,9 @@ export default function AssignedView() {
                       <thead>
                         <tr>
                           <th scope="col">#</th>
-                          <th scope="col">Roll.no.</th>
                           <th scope="col">Name</th>
+                          <th scope="col">Roll.no.</th>
+                          <th scope="col">Section</th>
                           <th scope="col">Completed</th>
                           <th scope="col">file</th>
                         </tr>
@@ -164,7 +165,7 @@ export default function AssignedView() {
                         {
                           completions.map((e, i) => {
                             return (
-                              <DetailCard key={e.uid} sno={i + 1} name={e.name} rollno={e.rollno} file={e.file} date={e.date} outDate={assignment.outDate} />
+                              <DetailCard key={e.uid} sno={i + 1} name={e.name} rollno={e.rollno} section={e.section} file={e.file} date={e.date} outDate={assignment.outDate} />
                             );
                           })
                         }
