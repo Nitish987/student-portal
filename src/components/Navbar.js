@@ -26,7 +26,7 @@ export default function Navbar() {
               <a className="nav-link active text-light" aria-current="page" href="/">Dashboard</a>
             </li>
             {
-              userProfile && (userProfile.role === "hod" || userProfile.role === "teacher") && 
+              userProfile && (userProfile.role === "hod" || userProfile.role === "student") && 
               <li className="nav-item">
               <a className="nav-link active text-light" aria-current="page" href="/notes">Notes</a>
             </li>

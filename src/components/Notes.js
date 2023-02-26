@@ -190,91 +190,94 @@ export default function Notes() {
     <>
       {
         userProfile === "teacher" ? <Loading message="Something went Wrong!" /> :
-        <div className='container-fluid mt-4'>
-          <div className='container mt-3'>
-            <h1>Notes</h1>
-            <div className='d-flex mt-4 mb-4' style={{ gap: "10" }}>
-              <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-subject">Add Subject</button>
-            </div>
-            {
-              allNotes &&
-              <>
+          <div className='container-fluid mt-4'>
+            <div className='container mt-3'>
+              <h1>Notes</h1>
+              <div className='d-flex mt-4 mb-4' style={{ gap: "10" }}>
                 {
-                  [1, 2, 3, 4, 5, 6, 7, 8].map(e => {
-                    return (
-                      <NotesView key={e} title={`Semester ${e}`} data={allNotes[e]} upload={onUploadOption} />
-                    );
-                  })
+                  userProfile.role === "hod" &&
+                  <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add-subject">Add Subject</button>
                 }
-              </>
-            }
-          </div>
+              </div>
+              {
+                allNotes &&
+                <>
+                  {
+                    [1, 2, 3, 4, 5, 6, 7, 8].map(e => {
+                      return (
+                        <NotesView key={e} title={`Semester ${e}`} data={allNotes[e]} upload={onUploadOption} />
+                      );
+                    })
+                  }
+                </>
+              }
+            </div>
 
-          <div className="modal fade" id="add-subject" tabIndex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="addSubjectModalLabel">Add Subject</h1>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <div className="mb-3">
-                    <label htmlFor="subject" className="form-label">Subject</label>
-                    <input type="text" className="form-control" name='subject' id="subject" onChange={onSubjectNotes} />
+            <div className="modal fade" id="add-subject" tabIndex="-1" aria-labelledby="addSubjectModalLabel" aria-hidden="true">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="addSubjectModalLabel">Add Subject</h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
-                  <select className="form-select mb-3" aria-label=".form-select-lg" name='semester' onChange={onSubjectNotes}>
-                    <option value="1">Semester - 1</option>
-                    <option value="2">Semester - 2</option>
-                    <option value="3">Semester - 3</option>
-                    <option value="4">Semester - 4</option>
-                    <option value="5">Semester - 5</option>
-                    <option value="6">Semester - 6</option>
-                    <option value="7">Semester - 7</option>
-                    <option value="8">Semester - 8</option>
-                  </select>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={addSubjectModalCloseBtn}>Close</button>
-                  <button type="button" className="btn btn-primary" onClick={addSubject}>Save changes</button>
+                  <div className="modal-body">
+                    <div className="mb-3">
+                      <label htmlFor="subject" className="form-label">Subject</label>
+                      <input type="text" className="form-control" name='subject' id="subject" onChange={onSubjectNotes} />
+                    </div>
+                    <select className="form-select mb-3" aria-label=".form-select-lg" name='semester' onChange={onSubjectNotes}>
+                      <option value="1">Semester - 1</option>
+                      <option value="2">Semester - 2</option>
+                      <option value="3">Semester - 3</option>
+                      <option value="4">Semester - 4</option>
+                      <option value="5">Semester - 5</option>
+                      <option value="6">Semester - 6</option>
+                      <option value="7">Semester - 7</option>
+                      <option value="8">Semester - 8</option>
+                    </select>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={addSubjectModalCloseBtn}>Close</button>
+                    <button type="button" className="btn btn-primary" onClick={addSubject}>Save changes</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <button ref={uploadBtn} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-unit" style={{ display: "none" }}></button>
+            <button ref={uploadBtn} type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#upload-unit" style={{ display: "none" }}></button>
 
-          <div className="modal fade" id="upload-unit" tabIndex="-1" aria-labelledby="uploadUnitModalLabel" aria-hidden="true">
-            <div className="modal-dialog">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h1 className="modal-title fs-5" id="uploadUnitModalLabel">{selectedSubject && `${selectedSubject.name} Unit - ${selectedSubject.unit}`}</h1>
-                  <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div className="modal-body">
-                  <form ref={uploadFileForm} method='POST'>
-                    <span>PPT</span>
-                    <div className="input-group mb-3">
-                      <input type="file" className="form-control" aria-describedby="ppt-choose" aria-label="Upload" name='ppt' accept="application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation" onChange={onFileChoose} />
-                    </div>
-                    <span>PDF</span>
-                    <div className="input-group mb-3">
-                      <input type="file" className="form-control" aria-describedby="pdf-choose" aria-label="Upload" name='pdf' accept="application/pdf" onChange={onFileChoose} />
-                    </div>
-                    <span>DOCS</span>
-                    <div className="input-group mb-3">
-                      <input type="file" className="form-control" aria-describedby="docs-choose" aria-label="Upload" name='doc' accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={onFileChoose} />
-                    </div>
-                  </form>
-                </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={uploadFileModalCloseBtn}>Close</button>
-                  <button type="button" className="btn btn-primary" onClick={uploadUnit}>Save changes</button>
+            <div className="modal fade" id="upload-unit" tabIndex="-1" aria-labelledby="uploadUnitModalLabel" aria-hidden="true">
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h1 className="modal-title fs-5" id="uploadUnitModalLabel">{selectedSubject && `${selectedSubject.name} Unit - ${selectedSubject.unit}`}</h1>
+                    <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div className="modal-body">
+                    <form ref={uploadFileForm} method='POST'>
+                      <span>PPT</span>
+                      <div className="input-group mb-3">
+                        <input type="file" className="form-control" aria-describedby="ppt-choose" aria-label="Upload" name='ppt' accept="application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.presentation" onChange={onFileChoose} />
+                      </div>
+                      <span>PDF</span>
+                      <div className="input-group mb-3">
+                        <input type="file" className="form-control" aria-describedby="pdf-choose" aria-label="Upload" name='pdf' accept="application/pdf" onChange={onFileChoose} />
+                      </div>
+                      <span>DOCS</span>
+                      <div className="input-group mb-3">
+                        <input type="file" className="form-control" aria-describedby="docs-choose" aria-label="Upload" name='doc' accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={onFileChoose} />
+                      </div>
+                    </form>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={uploadFileModalCloseBtn}>Close</button>
+                    <button type="button" className="btn btn-primary" onClick={uploadUnit}>Save changes</button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
+          </div>
       }
     </>
   )
