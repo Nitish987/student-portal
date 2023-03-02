@@ -9,6 +9,8 @@ export default function StudentDashboard() {
   const userProfile = useSelector(state => state.user.profile);
   const [department, setDepartment] = useState(null);
   const [assignment, setAssignment] = useState(null);
+  const [isDepartmentLoaded, setIsDepartmentLoaded] = useState(false);
+  const [isAssignmentsLoaded, setIsAssignmentsLoaded] = useState(false);
 
   useEffect(() => {
     const fetchDepartment = async () => {
@@ -21,20 +23,22 @@ export default function StudentDashboard() {
 
     const fetchAssignments = async () => {
       const assignmentRef = collection(db, "department", userProfile.branch, "assignments");
-      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "array-contains", userProfile.section), where("year", "==", userProfile.year), limit(600));
+      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "array-contains", userProfile.section), where("year", "==", userProfile.year), limit(700));
       const assigmentSnap = await getDocs(assignmentQuery);
       const assignments = [];
       assigmentSnap.forEach((doc) => assignments.push(doc.data()));
       setAssignment(assignments);
     }
 
-    if (department === null) {
+    if (department === null && !isDepartmentLoaded) {
       fetchDepartment();
+      setIsDepartmentLoaded(true);
     }
-    if (assignment === null) {
+    if (assignment === null && !isAssignmentsLoaded) {
       fetchAssignments();
+      setIsAssignmentsLoaded(true);
     }
-  }, [department, setDepartment, userProfile.branch, setAssignment, userProfile.section, userProfile.year, assignment]);
+  }, [department, setDepartment, userProfile.branch, setAssignment, userProfile.section, userProfile.year, assignment, isAssignmentsLoaded, isDepartmentLoaded]);
 
   return (
     <div className="container-fluid d-flex justify-content-center mt-4">

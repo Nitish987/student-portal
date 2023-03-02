@@ -17,6 +17,9 @@ export default function TeacherDashboard() {
   const [section, setSection] = useState([]);
   const assignAssignmentCloseBtn = useRef(null);
   const assignmentForm = useRef(null);
+  const [onAssignmentBtnClick, setOnAssignmentBtnClick] = useState(false);
+  const [isDepartmentLoaded, setIsDepartmentLoaded] = useState(false);
+  const [isAssignmentsLoaded, setIsAssignmentsLoaded] = useState(false);
 
   const onAssignmentAssign = (e) => {
     if (e.target.name === 'attachment') {
@@ -59,14 +62,16 @@ export default function TeacherDashboard() {
         message: "Assignment assigned successfully.",
         type: "primary"
       }));
+      setOnAssignmentBtnClick(false);
     }).catch(() => {
       dispatch(showAlert({
         message: "Unable to Assign Assignment.",
         type: "danger"
       }));
+      setOnAssignmentBtnClick(false);
     }).finally(() => {
       assignmentForm.current.reset();
-      setAssignmentAssign({ subject: '', message: '', year: '1', section: 'A', attachment: null, attachmentType: null, outDate: '' });
+      setAssignmentAssign({ subject: '', message: '', year: '2', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
       setSection([]);
       setAssignment([assignmentData].concat(assignment));
     });
@@ -83,6 +88,8 @@ export default function TeacherDashboard() {
     }
 
     const id = `assign${parseInt(Math.random() * 1000)}${parseInt(Math.random() * 1000)}`;
+
+    setOnAssignmentBtnClick(true);
 
     if (assignmentAssign.attachment === null) {
       createAssignmentDoc(id, null, null);
@@ -102,12 +109,14 @@ export default function TeacherDashboard() {
         getDownloadURL(storageRef).then((url) => {
           createAssignmentDoc(id, url, fileType);
         }).catch(() => {
+          setOnAssignmentBtnClick(false);
           dispatch(showAlert({
             message: "Unable to Assign Assignment.",
             type: "danger"
           }));
         });
       }).catch(() => {
+        setOnAssignmentBtnClick(false);
         dispatch(showAlert({
           message: "Unable to Assign Assignment.",
           type: "danger"
@@ -134,13 +143,15 @@ export default function TeacherDashboard() {
       setAssignment(assignments);
     }
 
-    if (department === null) {
+    if (department === null && !isDepartmentLoaded) {
       fetchDepartment();
+      setIsDepartmentLoaded(true);
     }
-    if (assignment === null) {
+    if (assignment === null && !isAssignmentsLoaded) {
       fetchAssignments();
+      setIsAssignmentsLoaded(true);
     }
-  }, [department, setDepartment, userProfile.branch, setAssignment, userProfile.section, userProfile.year, assignment]);
+  }, [department, setDepartment, userProfile.branch, setAssignment, userProfile.section, userProfile.year, assignment, isAssignmentsLoaded, isDepartmentLoaded]);
 
   return (
     <>
@@ -216,21 +227,13 @@ export default function TeacherDashboard() {
                 <span>Section</span>
                 <div className='d-flex mb-3' style={{ gap: "17px" }}>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="A" onChange={onSection} />
+                    <input className="form-check-input" type="checkbox" value="A" onChange={onSection} checked={section.includes('A')}/>
                     <label className="form-check-label" htmlFor="defaultCheckA">A</label>
                   </div>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="B" onChange={onSection} />
+                    <input className="form-check-input" type="checkbox" value="B" onChange={onSection} checked={section.includes('B')}/>
                     <label className="form-check-label" htmlFor="defaultCheckB">B</label>
                   </div>
-                  {/* <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="C" onChange={onSection} />
-                    <label className="form-check-label" htmlFor="defaultCheckC">C</label>
-                  </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="D" onChange={onSection} />
-                    <label className="form-check-label" htmlFor="defaultCheckD">D</label>
-                  </div> */}
                 </div>
 
                 <span>Announcement Type</span>
@@ -257,14 +260,16 @@ export default function TeacherDashboard() {
 
                 <div className='mb-3'>
                   <label htmlFor="outDate" className="form-label">Submit on</label>
-                  <input type="date" className="form-control" name="outDate" onChange={onAssignmentAssign} />
+                  <input type="date" className="form-control" name="outDate" value={assignmentAssign.outDate} onChange={onAssignmentAssign} />
                 </div>
               </form>
 
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={assignAssignmentCloseBtn}>Close</button>
-              <button type="button" className="btn btn-primary" onClick={assignAssignment}>Assign</button>
+              {
+               onAssignmentBtnClick ? <span className='text-success'>Assigning...</span> : <button type="button" className="btn btn-primary" onClick={assignAssignment}>Assign</button>
+              }
             </div>
           </div>
         </div>
