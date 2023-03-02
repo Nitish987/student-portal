@@ -82,7 +82,7 @@ export default function Login() {
         <div className="container d-flex justify-content-center">
           <img src={logo} alt="rkgit_logo" style={{width: "120px", height: "120px"}}/>
         </div>
-        <h2>RKGITSP LOGIN</h2>
+        <h6>RKGIT STUDENT PORTAL LOGIN</h6>
         <form className="login-form" method="post">
           <div className="input-group mb-3 mt-4">
             <span className="input-group-text" id="basic-email">@</span>

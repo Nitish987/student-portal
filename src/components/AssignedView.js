@@ -7,6 +7,8 @@ import { auth, db, storage } from "../firebase/firebase";
 import { showAlert } from "../features/alert/AlertSlice";
 import { deleteObject, ref } from 'firebase/storage';
 import DetailCard from './detailCard';
+import { createSheet } from '../utils/writeExcel';
+import { saveAs } from 'file-saver';
 
 export default function AssignedView() {
   const params = useParams();
@@ -59,6 +61,23 @@ export default function AssignedView() {
         }));
       });
     }
+  }
+
+  const downloadExcelSheet = (section) => {
+    const sheetName = `${userProfile.branch}-${assignment.year}-${section}-sheet.xlsx`;
+    const data = [];
+    completions.forEach(e => {
+      if (e.section === section) {
+        data.push({
+          rollno: e.rollno,
+          name: e.name,
+          section: e.section,
+          submitted: timestamp(e.date)
+        });
+      }
+    });
+    const octet = createSheet(data, sheetName);
+    saveAs(new Blob([octet], { type: "application/octet-stream" }), sheetName);
   }
 
   useEffect(() => {
@@ -151,8 +170,21 @@ export default function AssignedView() {
 
                 {
                   completions && (assignment.type === "ASMT" || assignment.type === "ANMT") &&
-                  <>
-                    <table className="table">
+                  <div style={{ overflow: 'auto' }}>
+                    {
+                      completions.length !== 0 &&
+                      <div className='d-flex my-3'>
+                        {
+                          assignment.section.includes('A') &&
+                          <button type='button' className='btn btn-warning' onClick={(e) => downloadExcelSheet('A')}>Download Sheet Section A</button>
+                        }
+                        {
+                          assignment.section.includes('B') &&
+                          <button type='button' className='btn btn-warning ms-3' onClick={(e) => downloadExcelSheet('B')}>Download Sheet Section B</button>
+                        }
+                      </div>
+                    }
+                    <table className="table table-bordered">
                       <thead>
                         <tr>
                           <th scope="col">#</th>
@@ -173,7 +205,7 @@ export default function AssignedView() {
                         }
                       </tbody>
                     </table>
-                  </>
+                  </div>
                 }
 
               </div>

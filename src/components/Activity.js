@@ -13,6 +13,7 @@ export default function Activity() {
   const activityModalCloseBtn = useRef(null);
   const [allActivities, setAllActivities] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [onPostBtnClick, setOnPostBtnClick] = useState(false);
 
   const onActivity = (e) => {
     if (e.target.name === 'attachment') {
@@ -48,14 +49,15 @@ export default function Activity() {
       });
 
       activityModalCloseBtn.current.click();
+      setOnPostBtnClick(false);
       window.location.reload();
 
     }).catch((e) => {
-      console.log(e)
       dispatch(showAlert({
         message: "Unable to post.",
         type: "danger"
       }));
+      setOnPostBtnClick(false);
     });
   }
 
@@ -71,6 +73,8 @@ export default function Activity() {
 
     const id = `activity${parseInt(Math.random() * 1000)}${parseInt(Math.random() * 1000)}`;
 
+    setOnPostBtnClick(true);
+
     if (activity.attachment !== null) {
       const storageRef = ref(storage, `activity/${id}/${activity.attachment.name}`);
       uploadBytes(storageRef, activity.attachment).then((snapshot) => {
@@ -82,6 +86,7 @@ export default function Activity() {
             message: "Unable to Post.",
             type: "danger"
           }));
+          setOnPostBtnClick(false);
         });
       }).catch(() => {
         activityModalCloseBtn.current.click();
@@ -89,6 +94,7 @@ export default function Activity() {
           message: "Unable to Post.",
           type: "danger"
         }));
+        setOnPostBtnClick(false);
       });
     } else {
       createActivityDoc(id, null);
@@ -156,7 +162,9 @@ export default function Activity() {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={activityModalCloseBtn}>Close</button>
-                <button type="button" className="btn btn-primary" onClick={postActivity}>Post</button>
+                {
+                  onPostBtnClick ? <span className='text-success'>Posting...</span> : <button type="button" className="btn btn-primary" onClick={postActivity}>Post</button>
+                }
               </div>
             </div>
           </div>
