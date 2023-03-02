@@ -14,7 +14,7 @@ export default function HodDashboard() {
   const [department, setDepartment] = useState(null);
   const [assignment, setAssignment] = useState(null);
   const [upcomingMessage, setUpcomingMessage] = useState("");
-  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
+  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '2', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
   const [section, setSection] = useState([]);
   const upcomingModalCloseBtn = useRef(null);
   const assignAssignmentCloseBtn = useRef(null);
@@ -149,7 +149,7 @@ export default function HodDashboard() {
 
     const fetchAssignments = async () => {
       const assignmentRef = collection(db, "department", userProfile.branch, "assignments");
-      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("assignedBy", "==", auth.currentUser.uid), limit(100));
+      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("assignedBy", "==", auth.currentUser.uid), limit(200));
       const assigmentSnap = await getDocs(assignmentQuery);
       const assignments = [];
       assigmentSnap.forEach((doc) => assignments.push(doc.data()));
@@ -184,6 +184,11 @@ export default function HodDashboard() {
             </div>
 
             <div id='assignment-bar' className="assignment-cont d-flex flex-column rounded-4 p-3 w-75">
+
+              <div className='upcoming-card card p-3' style={{ cursor: 'pointer' }} data-bs-toggle="modal" data-bs-target="#upcoming-edits">
+                <h6>Upcoming...</h6>
+                <span>{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</span>
+              </div>
 
               <Announcement dataBsTarget="#announce-assignment" />
 
@@ -246,7 +251,6 @@ export default function HodDashboard() {
                 </div>
 
                 <select className="form-select mb-3" aria-label=".form-select-lg" name='year' onChange={onAssignmentAssign}>
-                  <option value="1">Year - 1</option>
                   <option value="2">Year - 2</option>
                   <option value="3">Year - 3</option>
                   <option value="4">Year - 4</option>
@@ -255,21 +259,21 @@ export default function HodDashboard() {
                 <span>Section</span>
                 <div className='d-flex mb-3' style={{ gap: "17px" }}>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="A" onChange={onSection}/>
+                    <input className="form-check-input" type="checkbox" value="A" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckA">A</label>
                   </div>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="B" onChange={onSection}/>
+                    <input className="form-check-input" type="checkbox" value="B" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckB">B</label>
                   </div>
-                  <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="C" onChange={onSection}/>
+                  {/* <div className="form-check">
+                    <input className="form-check-input" type="checkbox" value="C" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckC">C</label>
                   </div>
                   <div className="form-check">
-                    <input className="form-check-input" type="checkbox" value="D" onChange={onSection}/>
+                    <input className="form-check-input" type="checkbox" value="D" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckD">D</label>
-                  </div>
+                  </div> */}
                 </div>
 
                 <span>Announcement Type</span>

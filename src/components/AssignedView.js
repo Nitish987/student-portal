@@ -1,5 +1,5 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query } from 'firebase/firestore';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Loading from '../components/Loading';
@@ -16,6 +16,7 @@ export default function AssignedView() {
   const [assignment, setAssignment] = useState(null);
   const [completions, setCompletions] = useState(null);
   const [isAssignmentExists, setIsAssignmentExists] = useState(true);
+  const deleteAssignmentModalCloseBtn = useRef(null);
 
   const timestamp = (time) => {
     const fireBaseTime = new Date(time.seconds * 1000 + time.nanoseconds / 1000000,);
@@ -27,6 +28,7 @@ export default function AssignedView() {
   const deleteAssignmentDoc = () => {
     const documentRef = doc(db, "department", userProfile.branch, "assignments", params.id);
     deleteDoc(documentRef).then(() => {
+      deleteAssignmentModalCloseBtn.current.click();
       navigate('/');
     }).catch(() => {
       dispatch(showAlert({
@@ -190,7 +192,7 @@ export default function AssignedView() {
                       Are you sure to remove this assignment.
                     </div>
                     <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" ref={deleteAssignmentModalCloseBtn}>Close</button>
                       <button type="button" className="btn btn-danger" onClick={deleteAssigned}>Delete</button>
                     </div>
                   </div>

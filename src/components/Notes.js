@@ -10,7 +10,7 @@ import Loading from '../components/Loading';
 export default function Notes() {
   const userProfile = useSelector(state => state.user.profile);
   const dispatch = useDispatch();
-  const [note, setNote] = useState({ subject: '', semester: '1' });
+  const [note, setNote] = useState({ subject: '', semester: '3' });
   const [isLoaded, setIsLoaded] = useState(false);
   const [allNotes, setAllNotes] = useState(null);
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -90,7 +90,6 @@ export default function Notes() {
   }
 
   const modifyNoteDoc = (type, url) => {
-    console.log(selectedSubject);
     const units = selectedSubject.units;
     if (type === 'ppt') units[selectedSubject.unit - 1].ppt = url;
     else if (type === 'pdf') units[selectedSubject.unit - 1].pdf = url;
@@ -203,7 +202,7 @@ export default function Notes() {
                 allNotes &&
                 <>
                   {
-                    [1, 2, 3, 4, 5, 6, 7, 8].map(e => {
+                    [3, 4, 5, 6, 7, 8].map(e => {
                       return (
                         <NotesView key={e} title={`Semester ${e}`} data={allNotes[e]} upload={onUploadOption} />
                       );
@@ -226,8 +225,6 @@ export default function Notes() {
                       <input type="text" className="form-control" name='subject' id="subject" onChange={onSubjectNotes} />
                     </div>
                     <select className="form-select mb-3" aria-label=".form-select-lg" name='semester' onChange={onSubjectNotes}>
-                      <option value="1">Semester - 1</option>
-                      <option value="2">Semester - 2</option>
                       <option value="3">Semester - 3</option>
                       <option value="4">Semester - 4</option>
                       <option value="5">Semester - 5</option>

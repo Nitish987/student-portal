@@ -13,7 +13,7 @@ export default function TeacherDashboard() {
   const userProfile = useSelector(state => state.user.profile);
   const [department, setDepartment] = useState(null);
   const [assignment, setAssignment] = useState(null);
-  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '1', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
+  const [assignmentAssign, setAssignmentAssign] = useState({ subject: '', message: '', year: '2', type: "ANMT", attachment: null, attachmentType: null, outDate: '' });
   const [section, setSection] = useState([]);
   const assignAssignmentCloseBtn = useRef(null);
   const assignmentForm = useRef(null);
@@ -163,6 +163,11 @@ export default function TeacherDashboard() {
 
             <div id='assignment-bar' className="assignment-cont d-flex flex-column rounded-4 p-3 w-75">
 
+              <div className='upcoming-card card p-3'>
+                <h6>Upcoming...</h6>
+                <span>{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</span>
+              </div>
+
               <Announcement dataBsTarget="#announce-assignment" />
 
               {
@@ -203,7 +208,6 @@ export default function TeacherDashboard() {
                 </div>
 
                 <select className="form-select mb-3" aria-label=".form-select-lg" name='year' onChange={onAssignmentAssign}>
-                  <option value="1">Year - 1</option>
                   <option value="2">Year - 2</option>
                   <option value="3">Year - 3</option>
                   <option value="4">Year - 4</option>
@@ -219,14 +223,14 @@ export default function TeacherDashboard() {
                     <input className="form-check-input" type="checkbox" value="B" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckB">B</label>
                   </div>
-                  <div className="form-check">
+                  {/* <div className="form-check">
                     <input className="form-check-input" type="checkbox" value="C" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckC">C</label>
                   </div>
                   <div className="form-check">
                     <input className="form-check-input" type="checkbox" value="D" onChange={onSection} />
                     <label className="form-check-label" htmlFor="defaultCheckD">D</label>
-                  </div>
+                  </div> */}
                 </div>
 
                 <span>Announcement Type</span>

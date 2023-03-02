@@ -21,7 +21,7 @@ export default function StudentDashboard() {
 
     const fetchAssignments = async () => {
       const assignmentRef = collection(db, "department", userProfile.branch, "assignments");
-      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "array-contains", userProfile.section), where("year", "==", userProfile.year), limit(100));
+      const assignmentQuery = query(assignmentRef, orderBy("onDate", "desc"), where("section", "array-contains", userProfile.section), where("year", "==", userProfile.year), limit(600));
       const assigmentSnap = await getDocs(assignmentQuery);
       const assignments = [];
       assigmentSnap.forEach((doc) => assignments.push(doc.data()));
@@ -55,6 +55,12 @@ export default function StudentDashboard() {
           </div>
 
           <div id='assignment-bar' className="assignment-cont d-flex flex-column rounded-4 p-3 w-75">
+
+            <div className='upcoming-card card p-3'>
+              <h6>Upcoming...</h6>
+              <span>{department && (department.upcoming === '' ? 'No event now...' : department.upcoming)}</span>
+            </div>
+
             {
               (assignment === null || assignment.length === 0) &&
               <div className='d-flex justify-content-center mt-5'>
@@ -63,7 +69,7 @@ export default function StudentDashboard() {
             }
             {
               assignment !== null && assignment.map(e => {
-                return <Assignment key={e.id} data={e}/>
+                return <Assignment key={e.id} data={e} />
               })
             }
           </div>

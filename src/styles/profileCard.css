@@ -97,6 +97,10 @@
         align-items: center;
     }
 
+    .profile-info .username {
+        text-align: center;
+    }
+
     .contali {
         flex-wrap: wrap;
         justify-content: center;
