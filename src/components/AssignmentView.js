@@ -138,13 +138,13 @@ export default function AssignmentView() {
             &&
             <>
               <div className='container mt-5'>
-                <h4>{assignment.type === "NOTS" ? "Notes" : assignment.type === "ASMT" ? "Assignment" : "Announcement"} | {assignment.subject}</h4>
+                <h4>{assignment.type === "NOTS" ? "Notes" : assignment.type === "ASMT" ? "Assignment" : assignment.type === "UNTT" ? "Unit Test" : "Announcement"} | {assignment.subject}</h4>
                 <span>{assignment.message}</span>
                 <br />
                 <br />
                 <span>Assigned on - {timestamp(assignment.onDate)}</span>
                 {
-                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                   <>
                     <br />
                     <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
@@ -172,7 +172,7 @@ export default function AssignmentView() {
                 }
 
                 {
-                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                   <>
                     <div className="input-group mt-5">
                       <input type="file" className="form-control" aria-describedby="assignment-choose" aria-label="Upload" accept='application/pdf' onChange={onFileSelected} />
@@ -183,7 +183,7 @@ export default function AssignmentView() {
 
               </div>
               {
-                (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                 <div className='container mt-5 d-flex flex-column align-items-end'>
                   {
                     isCompleteDocExists && <span className='text-success'>You have already submitted this Assignment.</span>

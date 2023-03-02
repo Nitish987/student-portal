@@ -105,7 +105,7 @@ export default function AssignedView() {
     } else {
       setIsAssignmentExists(false);
     }
-    if (assignment !== null && (assignment.type === "ASMT" || assignment.type === "ANMT")) {
+    if (assignment !== null && (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT")) {
       fetchCompletions();
     }
   }, [assignment, setAssignment, params.id, userProfile]);
@@ -130,13 +130,13 @@ export default function AssignedView() {
             &&
             <>
               <div className='container mt-5'>
-                <h4>{assignment.type === "NOTS" ? "Notes" : assignment.type === "ASMT" ? "Assignment" : "Announcement"} | {assignment.subject}</h4>
+                <h4>{assignment.type === "NOTS" ? "Notes" : assignment.type === "ASMT" ? "Assignment" : assignment.type === "UNTT" ? "Unit Test" : "Announcement"} | {assignment.subject}</h4>
                 <span>{assignment.message}</span>
                 <br />
                 <br />
                 <span>Assigned on - {timestamp(assignment.onDate)}</span>
                 {
-                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                   <>
                     <br />
                     <span>Submit on &nbsp;&nbsp;&nbsp;- {timestamp(assignment.outDate)}</span>
@@ -164,12 +164,12 @@ export default function AssignedView() {
                 }
 
                 {
-                  (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                  (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                   <h6 className='mt-5'><b>Completed By - {assignment.branch.toUpperCase()} - {assignment.section.join(',')} - {assignment.year} year [{completions === null ? '0' : completions.length} Student]</b></h6>
                 }
 
                 {
-                  completions && (assignment.type === "ASMT" || assignment.type === "ANMT") &&
+                  completions && (assignment.type === "ASMT" || assignment.type === "ANMT" || assignment.type === "UNTT") &&
                   <div style={{ overflow: 'auto' }}>
                     {
                       completions.length !== 0 &&

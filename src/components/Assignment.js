@@ -52,7 +52,7 @@ export default function Assignment({ data }) {
         </div>
         <div className="d-flex w-100">
           <div className="w-75 d-flex flex-column">
-            <span className="asgn-info fw-bold"><span className='text-primary'>{data.type === "NOTS" ? "Notes" : data.type === "ASMT" ? "Assignment" : "Announcement"}</span> | {data.subject} : {data.message}</span>
+            <span className="asgn-info fw-bold"><span className='text-primary'>{data.type === "NOTS" ? "Notes" : data.type === "ASMT" ? "Assignment" : data.type === "UNTT" ? "Unit Test" : "Announcement"}</span> | {data.subject} : {data.message}</span>
             <span className="fw-light">{timestamp(data.onDate)}</span>
           </div>
           <div className="w-25 d-flex flex-row-reverse align-items-center">

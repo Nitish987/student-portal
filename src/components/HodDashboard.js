@@ -283,6 +283,7 @@ export default function HodDashboard() {
                 <select className="form-select mb-3" aria-label=".form-select-lg" name='type' onChange={onAssignmentAssign}>
                   <option value="ANMT">Announcement</option>
                   <option value="ASMT">Assignment</option>
+                  <option value="UNTT">Unit Test</option>
                   <option value="NOTS">Notes</option>
                 </select>
 
